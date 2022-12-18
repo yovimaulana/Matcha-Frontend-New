@@ -1,14 +1,16 @@
 <template>
     <div class="p-d-flex p-grid p-jc-between ">
-        <div class="container-nav-matcha" :class="['/dashboard', '/dashboard/admin'].includes(this.$route.fullPath)  ? 'active' : ''">
-            <router-link v-if="currentUser.roles.find(role => role.name == 'ROLE_ADMIN') != undefined"
-                :to="{name: 'dashboardAdmin'}" @click="this.$emit('showSideBar');">
+        <div v-if="currentUser.roles.find(role => role.name == 'ROLE_ADMIN') != undefined" class="container-nav-matcha" :class="this.$route.fullPath == '/dashboard/admin' ? 'active' : ''">
+            <router-link :to="{name: 'dashboardAdmin'}" @click="this.$emit('showSideBar');">
                 <div>
-                    <i class="pi pi-th-large p-mr-2 p-ml-2"></i>
-                    Dashboard
+                    <i class="pi pi-check-circle p-mr-2 p-ml-2"></i>
+                    Progres All
                 </div>
-            </router-link>
-            <router-link v-else :to="{name: 'dashboardUser'}" @click="this.$emit('showSideBar')">
+            </router-link>            
+        </div>
+
+        <div v-if="currentUser.roles.find(role => role.name == 'ROLE_USER') != undefined" class="container-nav-matcha" :class="this.$route.fullPath == '/dashboard' ? 'active' : ''">
+            <router-link :to="{name: 'dashboardUser'}" @click="this.$emit('showSideBar')">
                 <div>
                     <i class="pi pi-th-large p-mr-2 p-ml-2"></i>
                     Dashboard
@@ -16,8 +18,17 @@
             </router-link>
         </div>
 
+        <div v-if="currentUser.roles.find(role => role.name == 'ROLE_SUPERVISOR') != undefined" class="container-nav-matcha" :class="this.$route.fullPath == '/analytics' ? 'active' : ''">
+            <router-link :to="{name: 'analytics'}" @click="this.$emit('showSideBar')">
+                <div>
+                    <i class="pi pi-chart-line p-mr-2 p-ml-2"></i>
+                    Analytics
+                </div>
+            </router-link>
+        </div>
 
-        <div class="container-nav-matcha" :class="this.$route.fullPath == '/matching' ? 'active' : ''">
+
+        <div v-if="currentUser.roles.find(role => role.name == 'ROLE_USER') != undefined" class="container-nav-matcha" :class="this.$route.fullPath == '/matching' ? 'active' : ''">
             <router-link :to="{name: 'matching'}" @click="this.$emit('showSideBar')">
                 <div>
                     <i class="pi pi-table p-mr-2 p-ml-2"></i>
@@ -26,7 +37,7 @@
             </router-link>
         </div>
 
-        <div class="container-nav-matcha" :class="this.$route.fullPath == '/assessment' ? 'active' : ''">
+        <div v-if="currentUser.roles.find(role => role.name == 'ROLE_USER') != undefined" class="container-nav-matcha" :class="this.$route.fullPath == '/assessment' ? 'active' : ''">
             <router-link :to="{name: 'assessment'}" @click="this.$emit('showSideBar');">
                 <div>
                     <i class="pi pi-check-circle p-mr-2 p-ml-2"></i>

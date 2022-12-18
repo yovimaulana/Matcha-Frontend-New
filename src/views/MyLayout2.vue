@@ -156,7 +156,10 @@
         methods: {
             logout: function () {
                 this.$store.dispatch("logout").then(() => {
-                    this.$router.push("/");
+                    // this.$router.push("/");  
+                    let redirectSSO = process.env.VUE_APP_SSO_REDIRECT_URL                  
+                    let ssoLink = `https://sso.bps.go.id/auth/realms/pegawai-bps/protocol/openid-connect/logout?redirect_uri=${encodeURIComponent(redirectSSO)}`
+                    location.href = ssoLink
                 });
             },
             subMenuAlokasiTrigerred() {

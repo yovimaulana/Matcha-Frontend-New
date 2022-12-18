@@ -77,6 +77,9 @@ updatePasswordUser($iduser, $data) {
   getKegiatanActiveMatchingAssessment($tipeKegiatan){
     return axios.get('/api/kegiatan?type='+$tipeKegiatan+'&status=active')
   },
+  getKegiatanFilter(tipe, status){
+    return axios.get(`/api/kegiatan?type=${tipe}&status=${status}`)
+  },
 
 //Matching
   getDataMatching($id_kegiatan, $idUser){
@@ -185,8 +188,67 @@ updatePasswordUser($iduser, $data) {
 
   getReportMatchingUser($iduser, $idkegiatan, $typeReport) {    
     return axios.get('/api/users/'+$iduser+'/report/'+$typeReport+'/'+$idkegiatan)
-  }
+  },
 
+  getDataUserFromSSO(token) {
+    return axios.get(
+      'https://sso.bps.go.id/auth/realms/pegawai-bps/account',                    
+      {
+        headers: {   
+              'Accept': 'application/json',
+              'Authorization': 'Bearer '+token
+          }
+      }
+    );
+  },
+
+  getTokenMatchaAfterSSO(username) {
+    return axios.post('/api/after-sso', {username: username})
+  },
+
+  getResumeUnitStatistik() {
+    return axios.get('/api/analytics/unit-statistik')
+  },
+
+  getConfigSSO() {
+    return axios.get('/api/config/sso')
+  },
+
+  getResumeStatusAktif() {
+    return axios.get('/api/analytics/status-aktif')
+  },
+
+  getResumeByProvinsi() {
+    return axios.get('/api/analytics/usaha-by-provinsi')
+  },
+
+  getResumeSektorInstitusi() {
+    return axios.get('/api/analytics/sektor-institusi')
+  },
+
+  getResumeBadanUsaha() {
+    return axios.get('/api/analytics/badan-usaha')
+  },
+
+  getResumeJaringanUsaha() {
+    return axios.get('/api/analytics/jaringan-usaha')
+  },
+
+  getResumeSkalaUsaha() {
+    return axios.get('/api/analytics/skala-usaha')
+  },
+
+  getResumeByKategoriKBLI() {
+    return axios.get('/api/analytics/usaha-by-kategori-kbli')
+  },
+
+  getResumeVariabelEsensial() {
+    return axios.get('/api/analytics/variabel-esensial')
+  },
+
+  postIgnoreData(id_kegiatan, iduser, data) {
+    return axios.post('/api/kegiatan/'+id_kegiatan+'/matching/users/'+iduser+'/ignore-data', data)
+  }
   
 
 }

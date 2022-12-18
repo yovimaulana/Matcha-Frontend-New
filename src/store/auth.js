@@ -18,7 +18,6 @@ export default {
     },
     mutations: {
         set_user(state, data) {
-            
             state.user = data
             state.isLoggedIn = true
         },
@@ -59,6 +58,13 @@ export default {
                         reject(err)
                     })
             })
+        },
+        login_sso({commit}, data) {
+            const token = data.data.access_token
+            localStorage.setItem('token', token)
+            setHeaderToken(token) 
+            commit('set_user', data.data.user)
+            return
         },
         async get_user({commit}) {
 

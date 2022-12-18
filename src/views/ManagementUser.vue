@@ -56,7 +56,7 @@
                 <template #body="col">
                     <div v-for="data in col.data.roles " v-bind:key="data" style="margin-bottom: 10px;">
                         <Button :label="data.name" icon="pi pi-user-plus"
-                            class="p-button-sm p-button-rounded p-mr-2 p-tipe-user" :class="data.name.toLowerCase().includes('admin') ? 'team-admin' : 'team-user'"/>                      
+                            class="p-button-sm p-button-rounded p-mr-2 p-tipe-user" :class="'team-'+data.name.toLowerCase().split('_')[1]"/>                      
                     </div>                    
                 </template>
             </Column>                        
@@ -104,6 +104,10 @@
                     <div class="field-checkbox p-ml-4">
                         <Checkbox id="admin" name="admin" value="ADMIN" v-model="modelUser.role" />
                         <label for="admin" class="p-ml-2">Admin</label>
+                    </div>
+                    <div class="field-checkbox p-ml-4">
+                        <Checkbox id="supervisor" name="supervisor" value="SUPERVISOR" v-model="modelUser.role" />
+                        <label for="supervisor" class="p-ml-2">Supervisor</label>
                     </div>
                 </div>
             </div>
@@ -448,6 +452,15 @@
         background-color: #b3e5fc; 
         color: #23547b;
         border-color: #23547b; 
+        font-weight: 700;
+        font-size: 12px;
+        letter-spacing: .3px;
+    }
+
+    .team-supervisor {
+        background-color: #fcc9b3; 
+        color: #7b2f23;
+        border-color: #7b2f23; 
         font-weight: 700;
         font-size: 12px;
         letter-spacing: .3px;

@@ -192,6 +192,7 @@
         </DataTable>
 
         <!-- Aktivitas -->
+        
         <div v-show="this.onLoadData" class="p-grid" style="padding-left: 7px;">
             <div class="p-col-3">
                 <Skeleton height="150px"
@@ -204,7 +205,7 @@
         </div>
         <div v-if="this.dataKegiatan !== null" class="p-grid" style="padding-left:7px">
             <div class="p-col-3" style="margin-top: 11px;">
-                <TreeTable responsiveLayout="scroll" v-if="tempDataAssessmentAktivitas != null"
+                <TreeTable v-if="tempDataAssessmentAktivitas != null"
                     :value="tempDataAssessmentAktivitas">
                     <Column field="name" header="Data Assessment" :expander="true"></Column>
                     <Column field="value" header="Value"></Column>
@@ -224,9 +225,15 @@
                     :value="dataAssessmentAktivitas" :class="myCardBgColorData+' '+myTextColorData"
                     responsiveLayout="scroll">
                     <template #header>
-                        <div class="table-header-tmp">
-                            KEGIATAN / AKTIVITAS PERUSAHAAN
+                        <div class="p-grid">
+                            <div class="table-header-tmp p-col-9">
+                                KEGIATAN / AKTIVITAS PERUSAHAAN
+                            </div>
+                            <div class="p-col-3" style="text-align: right">
+                                <Button @click="addNew('aktivitas')" label="Add New" icon="pi pi-plus" />
+                            </div>
                         </div>
+                        
                     </template>
                     <Column header="#" headerStyle="width:3em">
                         <template #body="slotProps">
@@ -260,6 +267,11 @@
                                 v-if="slotProps.data.tpsumber == 'sbr' && slotProps.data.orisumber == 'assessment'"
                                 icon="pi pi-undo" class="p-button-danger p-button-sm p-button-raised" label=""
                                 title="Batal Tambah SBR" />
+
+                            <Button @click="removeAktivitasFromSBR(slotProps.index)" style="margin-top: 5px"
+                                v-if="slotProps.data.tpsumber == 'sbr' && slotProps.data.orisumber == 'assessment-new'"
+                                icon="pi pi-trash" class="p-button-danger p-button-sm p-button-raised" label=""
+                                title="Batal Tambah SBR" />
                         </template>
                     </Column>
                     <template #footer>
@@ -283,7 +295,7 @@
         </div>
         <div v-if="this.dataKegiatan !== null" class="p-grid" style="padding-left:7px">
             <div class="p-col-3" style="margin-top: 11px;">
-                <TreeTable responsiveLayout="scroll" v-if="tempDataAssessmentProduk != null"
+                <TreeTable v-if="tempDataAssessmentProduk != null"
                     :value="tempDataAssessmentProduk">
                     <Column field="name" header="Data Assessment" :expander="true"></Column>
                     <Column field="value" header="Value"></Column>
@@ -359,7 +371,7 @@
         </div>
         <div v-if="this.dataKegiatan !== null" class="p-grid" style="padding-left:7px">
             <div class="p-col-3" style="margin-top: 11px;">
-                <TreeTable responsiveLayout="scroll" v-if="tempDataAssessmentSaham != null"
+                <TreeTable v-if="tempDataAssessmentSaham != null"
                     :value="tempDataAssessmentSaham">
                     <Column field="name" header="Data Assessment" :expander="true"></Column>
                     <Column field="value" header="Value"></Column>
@@ -437,7 +449,7 @@
         </div>
         <div v-if="this.dataKegiatan !== null" class="p-grid" style="padding-left:7px">
             <div class="p-col-3" style="margin-top: 11px;">
-                <TreeTable responsiveLayout="scroll" v-if="tempDataAssessmentEmail != null"
+                <TreeTable v-if="tempDataAssessmentEmail != null"
                     :value="tempDataAssessmentEmail">
                     <Column field="name" header="Data Assessment" :expander="true"></Column>
                     <Column field="value" header="Value"></Column>
@@ -512,7 +524,7 @@
         </div>
         <div v-if="this.dataKegiatan !== null" class="p-grid" style="padding-left:7px">
             <div class="p-col-3" style="margin-top: 11px;">
-                <TreeTable responsiveLayout="scroll" v-if="tempDataAssessmentFax != null"
+                <TreeTable v-if="tempDataAssessmentFax != null"
                     :value="tempDataAssessmentFax">
                     <Column field="name" header="Data Assessment" :expander="true"></Column>
                     <Column field="value" header="Value"></Column>
@@ -586,7 +598,7 @@
         </div>
         <div v-if="this.dataKegiatan !== null" class="p-grid" style="padding-left:7px">
             <div class="p-col-3" style="margin-top: 11px;">
-                <TreeTable responsiveLayout="scroll" v-if="tempDataAssessmentTelepon != null"
+                <TreeTable v-if="tempDataAssessmentTelepon != null"
                     :value="tempDataAssessmentTelepon">
                     <Column field="name" header="Data Assessment" :expander="true"></Column>
                     <Column field="value" header="Value"></Column>
@@ -658,7 +670,7 @@
         </div>
         <div v-if="this.dataKegiatan !== null" class="p-grid" style="padding-left:7px">
             <div class="p-col-3" style="margin-top: 11px;">
-                <TreeTable responsiveLayout="scroll" v-if="tempDataAssessmentWeb != null"
+                <TreeTable v-if="tempDataAssessmentWeb != null"
                     :value="tempDataAssessmentWeb">
                     <Column field="name" header="Data Assessment" :expander="true"></Column>
                     <Column field="value" header="Value"></Column>
@@ -732,7 +744,7 @@
         </div>
         <div v-if="this.dataKegiatan !== null" class="p-grid" style="padding-left:7px">
             <div class="p-col-3" style="margin-top: 11px;">
-                <TreeTable responsiveLayout="scroll" v-if="tempDataAssessmentKontak != null"
+                <TreeTable v-if="tempDataAssessmentKontak != null"
                     :value="tempDataAssessmentKontak">
                     <Column field="name" header="Data Assessment" :expander="true"></Column>
                     <Column field="value" header="Value"></Column>
@@ -1711,7 +1723,9 @@
 
                 isIframeShow: false,
                 isFreshLoad: true,
-                onLoadData: false
+                onLoadData: false,
+
+                prid: null,
             }
         },
         async created() {
@@ -1740,6 +1754,31 @@
             }
         },
         methods: {
+            addNew(field) {
+                switch(field) {
+                    case 'aktivitas':
+                        this.openDialogAktivitas(
+                            {
+                                index: this.dataAssessmentAktivitas.length,
+                                data: {
+                                    id: null,
+                                    aktivitas: null,
+                                    jenis: null,
+                                    kategori: null,
+                                    kbli: null,
+                                    tpsumber: 'sbr',
+                                    orisumber: 'assessment-new',
+                                    perusahaan_id: null,
+                                    sumber: 'Data Assessment - New Data'
+                                }
+                            }
+                        )
+                        break
+                    default:
+                        break
+                }
+
+            },
             loadIframe() {
                 this.isIframeShow = true
                 this.isFreshLoad = false
@@ -1761,7 +1800,7 @@
                             'key': tempIndex + '-0',
                             'data': {
                                 'name': 'Aktivitas',
-                                'type': 'text',
+                                'type': 'Text',
                                 'value': reAss['aktivitas_perusahaan']
                             }
                         },
@@ -1769,15 +1808,16 @@
                             'key': tempIndex + '-1',
                             'data': {
                                 'name': 'Jenis',
-                                'type': 'text',
+                                'type': 'Text',
                                 'value': '-'
-                            }
+                            },
+                            
                         },
                         {
                             'key': tempIndex + '-2',
                             'data': {
                                 'name': 'Kategori',
-                                'type': 'text',
+                                'type': 'Text',
                                 'value': reAss['kategori_aktivitas_perusahaan']
                             }
                         },
@@ -1785,7 +1825,7 @@
                             'key': tempIndex + '-3',
                             'data': {
                                 'name': 'KBLI',
-                                'type': 'text',
+                                'type': 'Text',
                                 'value': reAss['kbli_aktivitas_perusahaan']
                             }
                         }
@@ -2212,6 +2252,8 @@
             },
             submit() {
 
+                console.log(this.dataAssessmentAktivitas)
+
                 this.dataToSend = {
                     ...this.selectedDataNonArrayHidden
                 }
@@ -2258,6 +2300,17 @@
             },
             saveEditedAktivitas() {
                 this.displayDialogAktivitas = false
+                if(this.dataAssessmentAktivitas[this.dataEditedAktivitas['index']] == undefined) {
+                    this.dataAssessmentAktivitas[this.dataEditedAktivitas['index']] = {}
+                    this.dataAssessmentAktivitas[this.dataEditedAktivitas['index']]['tpsumber'] = this.dataEditedAktivitas[
+                    'tpsumber']
+                    this.dataAssessmentAktivitas[this.dataEditedAktivitas['index']]['orisumber'] = this.dataEditedAktivitas[
+                    'orisumber']
+                    this.dataAssessmentAktivitas[this.dataEditedAktivitas['index']]['sumber'] = this.dataEditedAktivitas[
+                    'sumber']
+                    this.dataAssessmentAktivitas[this.dataEditedAktivitas['index']]['id'] = null
+                    this.dataAssessmentAktivitas[this.dataEditedAktivitas['index']]['perusahaan_id'] = this.prid
+                }
                 this.dataAssessmentAktivitas[this.dataEditedAktivitas['index']]['aktivitas'] = this.dataEditedAktivitas[
                     'aktivitas'] ? this.dataEditedAktivitas[
                     'aktivitas'] : null
@@ -2330,12 +2383,16 @@
                     'nomor_telepon'] : null
             },
             openDialogAktivitas(data) {
-                this.displayDialogAktivitas = true
+                this.displayDialogAktivitas = true                
                 this.dataEditedAktivitas['index'] = data.index
                 this.dataEditedAktivitas['aktivitas'] = data.data.aktivitas
                 this.dataEditedAktivitas['jenis'] = data.data.jenis
                 this.dataEditedAktivitas['kategori'] = data.data.kategori
                 this.dataEditedAktivitas['kbli'] = data.data.kbli
+                this.dataEditedAktivitas['tpsumber'] = data.data.tpsumber
+                this.dataEditedAktivitas['orisumber'] = data.data.orisumber
+                this.dataEditedAktivitas['sumber'] = data.data.sumber
+                console.log(this.dataEditedAktivitas)
             },
             openDialogProduk(data) {
                 this.displayDialogProduk = true
@@ -2499,8 +2556,10 @@
                         'kbli': aktivitasSBR[i]['kbli'],
                         'perusahaan_id': aktivitasSBR[i]['perusahaan_id']
                     })
+                    this.prid = aktivitasSBR[i]['perusahaan_id']
                 }
                 this.dataAssessmentAktivitas = tempDataAktivitas
+                
 
                 let dataAssessment = this.dataKegiatan.data_assessment;
                 let tempAssessmentArr = [];

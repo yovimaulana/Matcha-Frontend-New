@@ -6,7 +6,7 @@
 
     </div>
     <br>
-    <h1 style="font-size: 70px;position:relative;  top:-70px;">PAGE NOT FOUND</h1>
+    <h1 style="font-size: 70px;position:relative;  top:-70px;">PAGE NOT FOUND asd</h1>
     <h1>Aww...Jangan Nangis.</h1>
     <h3>Ini cuma error 404! Ayo kerja lagi.</h3>
     <p  style="font-style: italic; ">

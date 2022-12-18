@@ -116,13 +116,23 @@
         
         <div v-if="this.sbrData !== null" class="p-col-12 p-grid p-jc-between p-m-2 p-p-2"
             style="margin-left:10px !important; padding-right: 22px !important;">
-            <Button style="font-weight: 900;border-radius: 0.357rem; width: 45%" label="Skip" icon="pi pi-forward"
-                class="p-button-outlined p-button-danger p-jc-center p-ripple p-button-lg onclick-btn-custom" @click="skip()">
-                <i class="pi pi-forward p-mr-2"></i> SKIP
-            </Button>
-                <Button icon="pi pi-send" iconPos="left" label="SUBMIT" :badge="this.selectedData.length.toString()" style="font-weight:900;border-radius: 0.357rem; width:45%; background: #948bf4 !important; display: inline-block;"
+            <div class="p-col">
+                <Button style="font-weight: 900;border-radius: 0.357rem; width: 45%" label="Skip" icon="pi pi-forward"
+                class="p-button p-button-danger p-jc-center p-ripple p-button-lg onclick-btn-custom" @click="ignore()">
+                    <i class="pi pi-forward p-mr-2"></i> IGNORE
+                </Button>
+
+                <Button style="margin-left: 10px; font-weight: 900;border-radius: 0.357rem; width: 45%" label="Skip" icon="pi pi-forward"
+                    class="p-button-outlined p-button-danger p-jc-center p-ripple p-button-lg onclick-btn-custom" @click="skip()">
+                    <i class="pi pi-forward p-mr-2"></i> SKIP
+                </Button>
+            </div>
+            <div class="p-col">
+                <Button icon="pi pi-send" iconPos="left" label="SUBMIT" :badge="this.selectedData.length.toString()" style="font-weight:900;border-radius: 0.357rem; width:100%; background: #948bf4 !important; display: inline-block;"
                 class="p-col-12 p-lg-6 p-jc-center p-ripple p-button-lg onclick-btn-custom submit-btn-matcha"
                 @click="submit()" />
+            </div>
+                
         </div>
 
         <Skeleton v-show="this.onLoadData" height="180px"
@@ -311,6 +321,8 @@
             </slot>
         </Loading>        
 
+        <ConfirmDialog></ConfirmDialog>
+
     </div>
 </template>
 
@@ -320,6 +332,7 @@
     import Checkbox from 'primevue/checkbox';
     import ProgressBar from 'primevue/progressbar';
     import Tooltip from 'primevue/tooltip'
+    import ConfirmDialog from 'primevue/confirmdialog';
     import {
         FilterMatchMode,
     } from 'primevue/api';
@@ -349,6 +362,7 @@
             MyLoading,
             Loading,
             Skeleton,
+            ConfirmDialog
         },
         data() {
             return {
@@ -500,9 +514,40 @@
                     this.toastMessage('error', 'Error!', error.message);
                 }
             },
-            skip() {
-               
+            skip() {               
                 this.getDataMatchingUser(this.selectedKegiatan.id_kegiatan, this.currentUser.id)
+            },
+            ignore() {
+                this.$confirm.require({
+                    message: 'Data akan ditandai tidak layak untuk dimasukan ke database ?',
+                    header: 'Konfirmasi',
+                    icon: 'pi pi-exclamation-triangle',
+                    accept: () => {
+                        this.loadingDialog = true
+                        this.proceedIgnoreData()
+                    },
+                    reject: () => {
+                        // this.$toast.add({severity:'error', summary:'Rejected', detail:'You have rejected', life: 3000});
+                    }
+                });
+            },
+            async proceedIgnoreData() {
+                try {
+                    const data = {
+                        "id_alokasi" : this.sbrData.id_alokasi,
+                        "id_spool": this.sbrData.id_spool
+                    }
+                    const result = await DataService.postIgnoreData(this.selectedKegiatan.id_kegiatan, this.currentUser.id, data)
+
+                    this.toastMessage('success', 'Sukses!', result.data.meta.message);
+                    this.loadingDialog = false
+                    this.getDataMatchingUser(this.selectedKegiatan.id_kegiatan, this.currentUser.id)
+
+                } catch (error) {
+                    console.log(error)
+                    this.toastMessage('error', 'Error!', 'Something went wrong!');
+                    this.loadingDialog = false
+                }
             },
             async submit() {
                 try {

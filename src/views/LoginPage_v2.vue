@@ -45,27 +45,47 @@
                             <div class="field p-mb-1 col-12 md:col-12 sm:col-12">
                                 <Button :loading="loadingButton" label="Login" @click="userLogin()"
                                     class="p-mb-2 p-ripple" style="border-color: #a49df5!important; background-color: #a49df5!important;" />
-                                <Button label="SSO BPS" class="p-button-info" />
+                                <Button @click="goToSSO()" label="SSO BPS" class="p-button-info" />
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <Loading v-model:active="loadingDialog" :is-full-page="true" :color="'#86d166'" :background-color="'black'"
+            :opacity="0.75">
+            <slot>
+                <MyLoading></MyLoading>
+            </slot>
+        </Loading> 
+
+        <Toast/>
+
     </div>
 </template>
 
 <script>
     // import DataService from '../services/DataService'
+    import Toast from 'primevue/toast';
     import InputText from 'primevue/inputtext';
     import Tooltip from 'primevue/tooltip';
     import Password from 'primevue/password';
     import Message from 'primevue/message';
+    import Keycloak from 'keycloak-js'
+    import MyLoading from '../components/MyLoading2.vue'
+    import Loading from 'vue-loading-overlay';
+    import 'vue-loading-overlay/dist/vue-loading.css';
+import DataService from '../services/DataService';
+
     export default {
         components: {
             InputText,
             Password,
-            Message
+            Message,
+            MyLoading,
+            Loading,
+            Toast
         },
         directives: {
             'tooltip': Tooltip
@@ -90,11 +110,100 @@
                     password: null
                 },
                 errors: null,
-                loadingButton: false
-
+                loadingButton: false,
+                keycloak: null,
+                isLoggedInSSO: false,
+                loadingDialog: true,
+                isSsoEnable: false
             }
-        },            
+        },     
+        async mounted() {
+            const result = await this.getConfigSSO() 
+
+            if(result.data.meta.status == 'error') {
+                this.$toast.add({
+                    severity: 'error',
+                    summary: 'Error Occurred!',
+                    detail: result.data.meta.message,
+                    life: 2000
+                });                
+            }
+
+            if(result.data.meta.status == 'success' && result.data.data.configvalue == '1') {
+                this.isSsoEnable = true
+                this.keycloakFunction() 
+                return
+            } 
+
+            this.loadingDialog = false
+        },    
         methods: {
+            getConfigSSO() {
+                return DataService.getConfigSSO()
+            },
+            keycloakFunction() {
+
+                this.keycloak = new Keycloak({
+                    url: 'https://sso.bps.go.id/auth',
+                    realm: 'pegawai-bps',
+                    clientId: `${process.env.VUE_APP_SSO_CLIENT_ID}`,
+                })                             
+                
+                this.keycloak.init({
+                    onLoad: "check-sso",
+                    scope: "openid profile-pegawai",
+                    checkLoginIframe: false,
+                    responseMode: 'query'
+                }).then( async (res) => {
+                    this.isLoggedInSSO = res
+                    this.loadingDialog = res
+                    // kalo status login sso nya masih aktif
+                    if(this.isLoggedInSSO) {
+                        // console.log(this.keycloak.idTokenParsed)                        
+                        // console.log(this.keycloak.token)
+                        const userSSO = await this.getDataUserFromSSO()
+                        const userMatcha = await this.getTokenMatchaAfterSSO(userSSO.data.username)
+                        if(userMatcha.data.meta.status == 'error') {
+                            this.loadingDialog = false
+                            this.errors = userMatcha.data.meta.message
+                            return
+                        }
+                        this.$store.dispatch('login_sso', userMatcha.data)
+                        let userRoles = userMatcha.data.data.user.roles,
+                            filteredRoles = userRoles.find(role => role.name == "ROLE_ADMIN"),
+                            nameRoute = filteredRoles == undefined ? 'dashboardUser' : 'dashboardAdmin';
+
+                        this.$router.push({
+                            name: nameRoute
+                        });
+
+                    }
+                    
+                }).catch((err) => { 
+                    this.$toast.add({
+                        severity: 'error',
+                        summary: 'Error Occurred!',
+                        detail: 'Something went wrong with sso, contact admin!',
+                        life: 4000
+                    }); 
+                    console.log('something went wrong with sso ...', err)                       
+                })
+
+            },
+            getDataUserFromSSO() {                
+                return DataService.getDataUserFromSSO(this.keycloak.token)                    
+            },
+            getTokenMatchaAfterSSO(username) {
+                return DataService.getTokenMatchaAfterSSO(username)
+            },
+            goToSSO(){
+                if(this.isSsoEnable) {
+                    let redirectSSO = process.env.VUE_APP_SSO_REDIRECT_URL
+                    let clientIdSSO =  process.env.VUE_APP_SSO_CLIENT_ID
+                    let ssoLink = `https://sso.bps.go.id/auth/realms/pegawai-bps/protocol/openid-connect/auth?client_id=${clientIdSSO}&redirect_uri=${encodeURIComponent(redirectSSO)}&response_type=code&scope=openid`
+                    location.href = ssoLink
+                }                
+            },
             userLogin() {
                 if (this.authForm.username !== null && this.authForm.password !== null) {
                     this.loadingButton = true

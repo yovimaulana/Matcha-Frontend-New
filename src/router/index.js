@@ -7,7 +7,7 @@ const routes = [
     name: 'login',
     //karena inisiasi awal maka tidak perlu lazy load
     // component: () => import('../views/LoginPage.vue'),
-    component:/* webpackChunkName: "login" */ Login,    
+    component:/* webpackChunkName: "login" */ Login,       
    
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
@@ -26,11 +26,11 @@ const routes = [
     meta: {
       title: "Assessment",      
       requiresAuth: true,
-      restriction: '',
+      restriction: 'user',
     }
-  },
+  },  
   {
-    path: '/matching',
+    path: '/matching',    
     component: () => import('../views/MyLayout2.vue'),
     children: [{
       path: '',
@@ -40,7 +40,7 @@ const routes = [
     meta: {
       title: "Matching Manual",      
       requiresAuth: true,
-      restriction: '',
+      restriction: 'user',
     }
   },
   {
@@ -55,6 +55,20 @@ const routes = [
       title: "Dashboard",      
       requiresAuth: true,
       restriction: 'admin',
+    }
+  },
+  {
+    path: '/analytics',    
+    component: () => import('../views/MyLayout2.vue'),
+    children: [{
+      path: '',
+      name: 'analytics',
+      component: () => import(/* webpackChunkName: "Matching"*/'../views/DashboardAnalytics.vue'),      
+    }],    
+    meta: {
+      title: "Data SBR Live",      
+      requiresAuth: true,
+      restriction: 'supervisor',
     }
   },
   {
@@ -154,6 +168,11 @@ const routes = [
     component: () => import(/* webpackChunkName: "NotFound"*/'../views/NotFound.vue')
   },
   {
+    path: '/unauthorized',
+    name: 'unauthorized',
+    component: () => import(/* webpackChunkName: "NotFound"*/'../views/NotFound.vue')
+  },
+  {
     path: '/katalog-data-sbr',    
     name: 'direktoriLinkDataSM',
     component: () => import(/* webpackChunkName: "KatalogDataSBR"*/'../views/DirektoriLinkDataSM.vue')
@@ -190,7 +209,14 @@ router.beforeEach((to, from, next) => {
     if (!store.getters.isLoggedIn) {
       next({ name: 'login' })   
       return;   
-    }         
+    } 
+    
+    let userRoles = store.getters.user.roles,
+        filteredRoles = userRoles.find(role => role.name == `ROLE_${to.meta.restriction.toUpperCase()}`)
+    if(filteredRoles == undefined) {
+      next({name: 'unauthorized'})
+      return
+    }
   }
 
   // set title dokumen
