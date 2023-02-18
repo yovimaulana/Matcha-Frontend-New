@@ -289,8 +289,10 @@
                 data.data.roles.forEach(element => {
                     if (element.name == 'ROLE_USER') {
                         this.modelUser.role.push('USER')
-                    } else {
+                    } else if(element.name == 'ROLE_ADMIN') {
                         this.modelUser.role.push('ADMIN')
+                    } else if(element.name == 'ROLE_SUPERVISOR') {
+                        this.modelUser.role.push('SUPERVISOR')
                     }
                 });
 

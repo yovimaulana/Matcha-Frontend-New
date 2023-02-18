@@ -36,22 +36,24 @@
         </Card>  
 
         <!-- frame ala ala  -->
-        <div class="p-grid p-jc-center">
-            <iframe v-show="isIframeShow && !isFreshLoad" @load="loadIframe()"
+        <div class="p-grid p-jc-center pattern-bg" style="margin-top: 15px;">
+            <!-- <iframe v-show="isIframeShow && !isFreshLoad" @load="loadIframe()"
                 src="https://embed.lottiefiles.com/animation/106808" style="max-height:100%; overflow: auto;"
-                class="p-mt-4" width="500" height="500" frameBorder="0"></iframe>
+                class="p-mt-4" width="500" height="500" frameBorder="0"></iframe> -->
+            <img v-show="isIframeShow && !isFreshLoad" @load="loadIframe()" src="../assets/wait.gif" class="hvr-bob mybob p-mt-1 " alt="" srcset="">
             <Skeleton v-if="!isIframeShow && isFreshLoad" width="500px" height="500px"
                 style="margin-top: 37px; border-radius: 0.357rem; background-color: #8080802b;" />
         </div>
 
         <div v-if="this.errorMessages.length !== 0" style="text-align: center;">
             <br><br>
-            <img src="../assets/matcha404.png" class="hvr-bob mybob p-mt-1 " style="width: 30%; height: 18%;" alt=""
-                srcset="">
-            <br><br>
-            <h1>Aww...Jangan Nangis.</h1>
-            <h3> Ini cuma error kecil! Ayo kerja lagi</h3>
-            <p style="font-style: italic; ">
+            <!-- <img src="../assets/matcha404.png" class="hvr-bob mybob p-mt-1 " style="width: 30%; height: 18%;" alt=""
+                srcset=""> -->
+            <img src="../assets/watch.gif" class="hvr-bob mybob p-mt-1 " alt="" srcset="" />
+            <br>
+            <h1 style="color: dimgrey; font-variant: all-petite-caps; margin-bottom: 5px;">Aww...Jangan Nangis.</h1>
+            <h3 style="margin-top: 0; margin-bottom: 0;"> Ini cuma error kecil! Ayo kerja lagi</h3>
+            <p style="font-style: italic; margin-top: 10px;">
                 <span>So little time, so <span style="font-weight: 900;color:#78b34d"> MatchA </span> to do</span>
             </p>
             <Message v-for="(error) in this.errorMessages" v-bind:key="error" severity="error">{{error}}</Message>
@@ -574,6 +576,23 @@
 </script>
 
 <style scoped>
+
+    .pattern-bg {         
+        background-position: center;
+        background-size: 500px;
+        background-repeat: no-repeat;
+        background-image: url("data:image/svg+xml;utf8, %3Csvg width=%22100%25%22 height=%22100%25%22 viewBox=%220 0 1000 1000%22 xmlns=%22http:%2F%2Fwww.w3.org%2F2000%2Fsvg%22 %3E %3Cdefs%3E %3Cfilter id=%22grain%22 x=%22-50vw%22 y=%22-50vh%22 width=%22100vw%22 height=%22100vh%22%3E %3CfeFlood flood-color=%22%23ffffff%22 result=%22neutral-gray%22 %2F%3E %3CfeTurbulence in=%22neutral-gray%22 type=%22fractalNoise%22 baseFrequency=%222.5%22 numOctaves=%22100%22 stitchTiles=%22stitch%22 result=%22noise%22 %2F%3E %3CfeColorMatrix in=%22noise%22 type=%22saturate%22 values=%220%22 result=%22destaturatedNoise%22 %3E%3C%2FfeColorMatrix%3E %3CfeComponentTransfer in=%22desaturatedNoise%22 result=%22theNoise%22%3E %3CfeFuncA type=%22table%22 tableValues=%220 0 0.05 0%22%3E%3C%2FfeFuncA%3E %3C%2FfeComponentTransfer%3E %3CfeBlend in=%22SourceGraphic%22 in2=%22theNoise%22 mode=%22soft-light%22 result=%22noisy-image%22 %2F%3E %3C%2Ffilter%3E %3CclipPath id=%22shape%22%3E %3Cpath fill=%22currentColor%22 d=%22M891%2C606.5Q793%2C713%2C714%2C813.5Q635%2C914%2C530.5%2C820.5Q426%2C727%2C285%2C742.5Q144%2C758%2C87%2C629Q30%2C500%2C179%2C437.5Q328%2C375%2C376.5%2C321.5Q425%2C268%2C518%2C213Q611%2C158%2C638.5%2C268.5Q666%2C379%2C827.5%2C439.5Q989%2C500%2C891%2C606.5Z%22%3E%3C%2Fpath%3E %3C%2FclipPath%3E %3C%2Fdefs%3E %3Cg filter=%22url(%23grain)%22 clip-path=%22url(%23shape)%22%3E %3Cpath fill=%22%23f0f0f0%22 d=%22M891%2C606.5Q793%2C713%2C714%2C813.5Q635%2C914%2C530.5%2C820.5Q426%2C727%2C285%2C742.5Q144%2C758%2C87%2C629Q30%2C500%2C179%2C437.5Q328%2C375%2C376.5%2C321.5Q425%2C268%2C518%2C213Q611%2C158%2C638.5%2C268.5Q666%2C379%2C827.5%2C439.5Q989%2C500%2C891%2C606.5Z%22 %2F%3E %3C%2Fg%3E %3C%2Fsvg%3E");
+
+    }
+
+    .pattern-bg-2 {
+        background-position: top;
+        background-size: 500px;
+        background-repeat: no-repeat;
+        /* background-image: url("data:image/svg+xml;utf8, %3Csvg width=%22100%25%22 height=%22100%25%22 viewBox=%220 0 1000 1000%22 xmlns=%22http:%2F%2Fwww.w3.org%2F2000%2Fsvg%22 %3E %3Cdefs%3E %3Cfilter id=%22grain%22 x=%22-50vw%22 y=%22-50vh%22 width=%22100vw%22 height=%22100vh%22%3E %3CfeFlood flood-color=%22%23ffffff%22 result=%22neutral-gray%22 %2F%3E %3CfeTurbulence in=%22neutral-gray%22 type=%22fractalNoise%22 baseFrequency=%222.5%22 numOctaves=%22100%22 stitchTiles=%22stitch%22 result=%22noise%22 %2F%3E %3CfeColorMatrix in=%22noise%22 type=%22saturate%22 values=%220%22 result=%22destaturatedNoise%22 %3E%3C%2FfeColorMatrix%3E %3CfeComponentTransfer in=%22desaturatedNoise%22 result=%22theNoise%22%3E %3CfeFuncA type=%22table%22 tableValues=%220 0 0.05 0%22%3E%3C%2FfeFuncA%3E %3C%2FfeComponentTransfer%3E %3CfeBlend in=%22SourceGraphic%22 in2=%22theNoise%22 mode=%22soft-light%22 result=%22noisy-image%22 %2F%3E %3C%2Ffilter%3E %3CclipPath id=%22shape%22%3E %3Cpath fill=%22currentColor%22 d=%22M777.5%2C609Q801%2C718%2C693%2C739.5Q585%2C761%2C476.5%2C833.5Q368%2C906%2C256.5%2C832Q145%2C758%2C150%2C629Q155%2C500%2C226%2C426Q297%2C352%2C325%2C199.5Q353%2C47%2C489%2C81Q625%2C115%2C763%2C162Q901%2C209%2C827.5%2C354.5Q754%2C500%2C777.5%2C609Z%22%3E%3C%2Fpath%3E %3C%2FclipPath%3E %3C%2Fdefs%3E %3Cg filter=%22url(%23grain)%22 clip-path=%22url(%23shape)%22%3E %3Cpath fill=%22%23f0f0f0%22 d=%22M777.5%2C609Q801%2C718%2C693%2C739.5Q585%2C761%2C476.5%2C833.5Q368%2C906%2C256.5%2C832Q145%2C758%2C150%2C629Q155%2C500%2C226%2C426Q297%2C352%2C325%2C199.5Q353%2C47%2C489%2C81Q625%2C115%2C763%2C162Q901%2C209%2C827.5%2C354.5Q754%2C500%2C777.5%2C609Z%22 %2F%3E %3C%2Fg%3E %3C%2Fsvg%3E"); */
+        background-image: url("data:image/svg+xml;utf8, %3Csvg width=%22100%25%22 height=%22100%25%22 viewBox=%220 0 1000 1000%22 xmlns=%22http:%2F%2Fwww.w3.org%2F2000%2Fsvg%22 %3E %3Cdefs%3E %3Cfilter id=%22grain%22 x=%22-50vw%22 y=%22-50vh%22 width=%22100vw%22 height=%22100vh%22%3E %3CfeFlood flood-color=%22%23ffffff%22 result=%22neutral-gray%22 %2F%3E %3CfeTurbulence in=%22neutral-gray%22 type=%22fractalNoise%22 baseFrequency=%222.5%22 numOctaves=%22100%22 stitchTiles=%22stitch%22 result=%22noise%22 %2F%3E %3CfeColorMatrix in=%22noise%22 type=%22saturate%22 values=%220%22 result=%22destaturatedNoise%22 %3E%3C%2FfeColorMatrix%3E %3CfeComponentTransfer in=%22desaturatedNoise%22 result=%22theNoise%22%3E %3CfeFuncA type=%22table%22 tableValues=%220 0 0.05 0%22%3E%3C%2FfeFuncA%3E %3C%2FfeComponentTransfer%3E %3CfeBlend in=%22SourceGraphic%22 in2=%22theNoise%22 mode=%22soft-light%22 result=%22noisy-image%22 %2F%3E %3C%2Ffilter%3E %3CclipPath id=%22shape%22%3E %3Cpath fill=%22currentColor%22 d=%22M854.5%2C644.5Q898%2C789%2C740%2C771Q582%2C753%2C475.5%2C828.5Q369%2C904%2C235.5%2C846.5Q102%2C789%2C168.5%2C644.5Q235%2C500%2C185.5%2C368Q136%2C236%2C277%2C241.5Q418%2C247%2C522%2C180Q626%2C113%2C728.5%2C186.5Q831%2C260%2C821%2C380Q811%2C500%2C854.5%2C644.5Z%22%3E%3C%2Fpath%3E %3C%2FclipPath%3E %3C%2Fdefs%3E %3Cg filter=%22url(%23grain)%22 clip-path=%22url(%23shape)%22%3E %3Cpath fill=%22%23f0f0f0%22 d=%22M854.5%2C644.5Q898%2C789%2C740%2C771Q582%2C753%2C475.5%2C828.5Q369%2C904%2C235.5%2C846.5Q102%2C789%2C168.5%2C644.5Q235%2C500%2C185.5%2C368Q136%2C236%2C277%2C241.5Q418%2C247%2C522%2C180Q626%2C113%2C728.5%2C186.5Q831%2C260%2C821%2C380Q811%2C500%2C854.5%2C644.5Z%22 %2F%3E %3C%2Fg%3E %3C%2Fsvg%3E");
+    }
+
     ::v-deep(.p-card-body) {
         padding: 0 !important;
     }
