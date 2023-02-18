@@ -27,19 +27,23 @@
                     </template>
                 </Dropdown>
             </template>
-        </Card>        
+        </Card>          
 
         <!-- frame ala ala  -->
-        <div class="p-grid p-jc-center">
-            <iframe v-show="isIframeShow && !isFreshLoad" @load="loadIframe()"
+        <div class="p-grid p-jc-center pattern-bg" style="margin-top: 15px;">
+            <!-- <iframe v-show="isIframeShow && !isFreshLoad" @load="loadIframe()"
                 src="https://embed.lottiefiles.com/animation/106808" style="max-height:100%; overflow: auto;"
-                class="p-mt-4" width="500" height="500" frameBorder="0"></iframe>
+                class="p-mt-4" width="500" height="500" frameBorder="0"></iframe> -->
+                
+            <img v-show="isIframeShow && !isFreshLoad" @load="loadIframe()" src="../assets/wait.gif" class="hvr-bob mybob p-mt-1 " alt="" srcset="">            
+            
             <Skeleton v-if="!isIframeShow && isFreshLoad" width="500px" height="500px"
                 style="margin-top: 37px; border-radius: 0.357rem; background-color: #8080802b;" />
         </div>
-        <div v-if="this.successMessage !== null" style="text-align: center;">
+        <div class="pattern-bg-2" v-if="this.successMessage !== null" style="text-align: center;">
             <br>
-            <img src="../assets/matcha.png" class="hvr-bob mybob p-mt-1 " style="width: 30%; height: 18%;" alt="" srcset="">
+            <!-- <img src="../assets/matcha.png" class="hvr-bob mybob p-mt-1 " style="width: 30%; height: 18%;" alt="" srcset=""> -->
+            <img src="../assets/done.gif" class="hvr-bob mybob p-mt-1 " alt="" srcset="">
             <br>
             <h1 style="color: dimgrey; font-variant: all-petite-caps; margin-bottom: 5px;">Selamat! Kamu sudah selesai Matching</h1>
             <h3 style="margin-top: 0; margin-bottom: 0;"> Ayo kerja lagi.</h3>
@@ -49,8 +53,9 @@
         </div>
         <div v-if="this.errorMessages.length !== 0" style="text-align: center;">
             <br><br>
-            <img src="../assets/matcha404.png" class="hvr-bob mybob p-mt-1 " style="width: 30%; height: 18%;" alt=""
-                srcset="">
+            <!-- <img src="../assets/matcha404.png" class="hvr-bob mybob p-mt-1 " style="width: 30%; height: 18%;" alt=""
+                srcset=""> -->
+                <img src="../assets/watch.gif" class="hvr-bob mybob p-mt-1 " alt="" srcset="" />
             <br>
             <h1 style="color: dimgrey; font-variant: all-petite-caps; margin-bottom: 5px;">Aww...Jangan Nangis.</h1>
             <h3 style="margin-top: 0; margin-bottom: 0;">Ini cuma error kecil! Ayo kerja lagi.</h3>
@@ -85,7 +90,7 @@
                             <div style="text-align: center">
                                 <span style="font-size: 40px;"> {{this.allData.data.summary.sudah_matching}} </span>
                                 <br>
-                                Sudah Matching
+                                <a @click="showMatchingResult()" href="javascript:void(0)" v-tooltip.bottom="'Klik untuk melihat hasil matching!'">Sudah Matching</a>
                             </div>
                         </div>
                         <div class="p-col-1">
@@ -323,6 +328,70 @@
 
         <ConfirmDialog></ConfirmDialog>
 
+        <Dialog header="Hasil Matching" stripedRows v-model:visible="displayDialogResultMatching" :breakpoints="{'960px': '75vw', '640px': '90vw'}" :style="{width: '50vw'}" :maximizable="true" :modal="true">
+            <DataTable :value="dataMatchingResult" :paginator="true" :rows="10" 
+                v-model:filters="filters2" filterDisplay="menu" 
+                dataKey="id"
+                :globalFilterFields="['nama_perusahaan','alamat','date_matching']"
+                responsiveLayout="scroll">
+                <template #header>
+                    <div class="flex justify-content-between" style="text-align: right">                        
+                        <span class="p-input-icon-left">
+                            <i class="pi pi-search" />
+                            <InputText v-model="filters2['global'].value" placeholder="Keyword Search" />
+                        </span>
+                    </div>
+                </template>
+                <template #empty>
+                    Data tidak tersedia!
+                </template>
+                <Column field="nama_perusahaan" header="Nama"></Column>
+                <Column field="alamat" header="Alamat"></Column>
+                <Column field="date_matching" header="Tanggal Matching"></Column>
+                <Column field="hasil_matching" header="Result"></Column>
+                <Column header="Action">
+                    <template #body="slotProps">   
+                        <div>
+                            <Button v-tooltip.bottom="'Klik untuk melihat hasil matching!'" v-if="slotProps.data.hasil_matching == 'MATCH'" class="p-button-info p-button-sm" @click="openHasilMatchingTerpilih(slotProps.data.id_spool)" label="View" icon="pi pi-circle" />
+                            <Button v-tooltip.bottom="'Klik untuk membatalkan hasil matching!'" v-if="slotProps.data.hasil_matching == 'UNMATCH'" class="p-button-danger p-button-sm" @click="cancelUnmatch(slotProps.data.id_spool)" label="Cancel" icon="pi pi-times" />
+                        </div>                                             
+                    </template>
+                </Column>
+            </DataTable>            
+            <template #footer>
+                <Button label="Close" @click="this.displayDialogResultMatching = false" />                
+            </template>
+        </Dialog>
+
+        <Dialog header="Detail Hasil Matching" v-model:visible="modalHasilMatching" :breakpoints="{'960px': '75vw', '640px': '90vw'}" :style="{width: '50vw'}" :modal="true">
+            <BlockUI :blocked="blockedPanel">
+                <p class="m-0" style="border: 1px solid #d1ecd1;padding: 10px;border-radius: 0.5em;background-color: #d1ecd1;color: gray;">
+                    Nama: <strong>{{ this.detailMatchingNama }}</strong> <br/>
+                    Alamat: <strong>{{ this.detailMatchingAlamat }}</strong>
+                </p>
+                <div style="text-align: right; margin-bottom: 15px">
+                    <Button @click="cancelAllMatching(this.selectedSpool)" v-tooltip.bottom="'Klik untuk membatalkan semua hasil matching!'" class="p-button-danger p-button-sm" label="Cancel All" icon="pi pi-times" />
+                </div>
+                <DataTable :value="dataDetailMatchingResult" :paginator="true" :rows="10" responsiveLayout="scroll">
+                    <template #empty>
+                        Data tidak tersedia!
+                    </template>
+                    <Column field="result_nama" header="Nama"></Column>
+                    <Column field="result_alamat" header="Alamat"></Column>
+                    <Column header="Action">
+                        <template #body="slotProps">   
+                            <div>
+                                <Button v-tooltip.bottom="'Klik untuk membatalkan hasil matching!'" class="p-button-danger p-button-sm" @click="cancelMatching(slotProps.data.result_id, slotProps.data.id_spool, slotProps.data.idsbr)" label="Cancel" icon="pi pi-times" />
+                            </div>                                             
+                        </template>
+                    </Column>
+                </DataTable>
+            </BlockUI>            
+            <template #footer>
+                <Button label="Close" @click="this.modalHasilMatching = false" />
+            </template>
+        </Dialog>
+
     </div>
 </template>
 
@@ -339,8 +408,9 @@
     import InputText from 'primevue/inputtext';
     import Breadcrumb from 'primevue/breadcrumb';
     import Message from 'primevue/message'
+    import Dialog from 'primevue/dialog';
     import MyLoading from '../components/MyLoading2.vue'
-
+    import BlockUI from 'primevue/blockui';
 
     import Loading from 'vue-loading-overlay';
     import 'vue-loading-overlay/dist/vue-loading.css';
@@ -362,10 +432,16 @@
             MyLoading,
             Loading,
             Skeleton,
-            ConfirmDialog
+            ConfirmDialog,
+            Dialog,
+            BlockUI
         },
         data() {
             return {
+                selectedSpool: null,
+                modalHasilMatching: false,
+                dataMatchingResult: null,
+                displayDialogResultMatching: false,
                 selectedMatching: null,
                 progresMatching: 0,
                 isIframeShow: false,
@@ -382,6 +458,12 @@
 
                 ],
                 filters: {
+                    'global': {
+                        value: null,
+                        matchMode: FilterMatchMode.CONTAINS
+                    },
+                },
+                filters2: {
                     'global': {
                         value: null,
                         matchMode: FilterMatchMode.CONTAINS
@@ -425,6 +507,10 @@
                 //error
                 errorMessages: [],
                 successMessage: null,
+                dataDetailMatchingResult: null,
+                detailMatchingNama: '',
+                detailMatchingAlamat: '',
+                blockedPanel: true
             }
         },
         created() {
@@ -437,6 +523,171 @@
         },
         watch: {},
         methods: {
+            cancelAllMatching(idspool) {
+                this.$confirm.require({
+                    message: 'Batalkan semua hasil matching ('+this.dataDetailMatchingResult.length+') ?',
+                    header: 'Konfirmasi',
+                    icon: 'pi pi-exclamation-triangle',
+                    accept: async () => {
+                        this.loadingDialog = true
+                        this.modalHasilMatching = false
+                        try {
+                            const result = await DataService.cancelAllMatching(idspool, this.selectedKegiatan.id_kegiatan, this.currentUser.id)
+                            if(result.data.meta.status == 'error') {
+                                this.loadingDialog = false
+                                this.toastMessage('error', 'Error!', 'Something went wrong!'); 
+                                return;
+                            }
+                            this.loadingDialog = false
+                            this.toastMessage('success', 'Sukses!', 'Berhasil membatalkan hasil matching!');
+                            let tempIndex = this.dataMatchingResult.findIndex((data) => data.id_spool == idspool)
+                            if(tempIndex != -1) {
+                                this.dataMatchingResult.splice(tempIndex, 1)
+                                this.allData.data.summary.belum_matching += 1
+                                this.allData.data.summary.sudah_matching -= 1
+                                this.calculateProgres()
+                            } 
+                        } catch (error) {
+                            console.log(error)
+                            this.modalHasilMatching = false
+                            this.loadingDialog = false
+                            this.toastMessage('error', 'Error!', 'Something went wrong!');
+                        }
+                    },
+                    reject: () => {
+                        // this.$toast.add({severity:'error', summary:'Rejected', detail:'You have rejected', life: 3000});
+                    }
+                });
+            },
+            cancelUnmatch(idspool) {
+                this.$confirm.require({
+                    message: 'Batalkan hasil matching ini ?',
+                    header: 'Konfirmasi',
+                    icon: 'pi pi-exclamation-triangle',
+                    accept: async () => {
+                        this.loadingDialog = true
+                        try {
+                            const result = await DataService.cancelMatchingResult(idspool, null, this.selectedKegiatan.id_kegiatan, this.currentUser.id);
+                            if(result.data.meta.status == 'error') {
+                                this.loadingDialog = false
+                                this.toastMessage('error', 'Error!', 'Something went wrong!'); 
+                                return;
+                            }
+                            this.loadingDialog = false
+                            this.modalHasilMatching = false
+                            this.toastMessage('success', 'Sukses!', 'Berhasil membatalkan hasil matching!');
+                            let tempIndex = this.dataMatchingResult.findIndex((data) => data.id_spool == idspool)
+                            if(tempIndex != -1) {
+                                this.dataMatchingResult.splice(tempIndex, 1)
+                                this.allData.data.summary.belum_matching += 1
+                                this.allData.data.summary.sudah_matching -= 1
+                                this.calculateProgres()
+                            }                             
+                        } catch(error) {
+                            console.log(error)
+                            this.loadingDialog = false
+                            this.toastMessage('error', 'Error!', 'Something went wrong!');
+                        }
+                    },
+                    reject: () => {
+                        // this.$toast.add({severity:'error', summary:'Rejected', detail:'You have rejected', life: 3000});
+                    }
+                });
+            },
+            cancelMatching(idbp, idspool, idsbr) {
+                this.$confirm.require({
+                    message: 'Batalkan hasil matching ini ?',
+                    header: 'Konfirmasi',
+                    icon: 'pi pi-exclamation-triangle',
+                    accept: () => {
+                        this.loadingDialog = true
+                        this.modalHasilMatching = false
+                        this.doCancelMatchingResult(idspool, idsbr)
+                    },
+                    reject: () => {
+                        // this.$toast.add({severity:'error', summary:'Rejected', detail:'You have rejected', life: 3000});
+                    }
+                });
+            },
+            async doCancelMatchingResult(idspool, idsbr) {
+                try {                    
+                    const result = await DataService.cancelMatchingResult(idspool, idsbr, this.selectedKegiatan.id_kegiatan, this.currentUser.id);
+                    if(result.data.meta.status == 'error') {
+                        this.loadingDialog = false
+                        this.toastMessage('error', 'Error!', 'Data kegiatan tidak ditemukan!'); 
+                        return;
+                    }
+                    this.loadingDialog = false
+                    this.toastMessage('success', 'Sukses!', 'Berhasil membatalkan hasil matching!');
+                    this.modalHasilMatching = false
+                    // kalau sisa hasil matching = 0 -> abis, update tampilan modal matching result ..
+                    if(result.data.data.sisa == 0) {
+                        let tempIndex = this.dataMatchingResult.findIndex((data) => data.id_spool == idspool)
+                        if(tempIndex != -1) {
+                            this.dataMatchingResult.splice(tempIndex, 1)
+                            this.allData.data.summary.belum_matching += 1
+                            this.allData.data.summary.sudah_matching -= 1
+                            this.calculateProgres()
+                        }    
+                    }
+                } catch (error) {
+                    console.log(error)
+                    this.loadingDialog = false
+                    this.toastMessage('error', 'Error!', 'Something went wrong!');
+                }
+            },
+            calculateProgres() {
+                this.progresMatching = ((this.allData.data.summary.sudah_matching / this.allData
+                        .data.summary.total_data_matching) * 100).toFixed(2)
+            },
+            async openHasilMatchingTerpilih(idspool) {
+                // console.log(idspool)
+                this.selectedSpool = null
+                this.modalHasilMatching = true
+                this.blockedPanel = true
+                this.dataDetailMatchingResult = null
+                this.detailMatchingNama = ''
+                this.detailMatchingAlamat = ''
+                try {
+                    const result = await DataService.getDetailMatchingResultsUser(this.selectedKegiatan.id_kegiatan, this.currentUser.id, idspool);
+                    if(result.data.meta.status == 'error') {
+                        this.modalHasilMatching = false
+                        this.toastMessage('error', 'Error!', 'Data kegiatan tidak ditemukan!');    
+                        return
+                    }
+
+                    // console.log(result.data.data)
+                    this.dataDetailMatchingResult = result.data.data
+                    this.selectedSpool = this.dataDetailMatchingResult[0].id_spool
+                    this.detailMatchingNama = result.data.data[0].matching_nama
+                    this.detailMatchingAlamat = result.data.data[0].matching_alamat
+                    this.blockedPanel = false
+                } catch(error) {
+                    console.log(error)
+                    this.modalHasilMatching = true
+                    this.toastMessage('error', 'Error!', 'Something went wrong!');
+                }
+            },
+            async showMatchingResult () {
+                this.displayDialogResultMatching = true
+                this.loadingDialog = true
+                try {
+                    const result = await DataService.getMatchingResultsUser(this.selectedKegiatan.id_kegiatan, this.currentUser.id);                        
+                    if(result.data.meta.status == 'error') {
+                        this.loadingDialog = false
+                        this.toastMessage('error', 'Error!', 'Data kegiatan tidak ditemukan!');    
+                        return
+                    }
+                    // console.log(result.data.data)
+                    this.dataMatchingResult = result.data.data
+                    this.loadingDialog = false
+                } catch (error) {
+                    console.log(error)
+                    this.loadingDialog = false
+                    this.toastMessage('error', 'Error!', 'Something went wrong!');
+                }
+
+            },            
             udpateSelectedMatch(idsbr) {
                 const isExist = this.selectedData.findIndex(data => data == idsbr)
                 
@@ -450,7 +701,6 @@
             },
             async getListKegiatan() {
                 try {
-                    console.log()
                     // const listKegiatan = await DataService.getKegiatanActiveMatching()
                     const listKegiatan = await DataService.getDaftarKegiatanMatchingUser(this.currentUser.id, 'active')
                     this.kegiatanOptions = listKegiatan.data                   
@@ -604,6 +854,7 @@
                 this.allData = null
                 this.sbrData = null
                 this.matchingData = null
+                this.dataMatchingResult = null
             },
             setLockedData() {
                 this.selectedData = []
@@ -638,7 +889,27 @@
     };
 </script>
 
-<style scoped>
+<style scoped>    
+
+    
+
+    .pattern-bg {         
+        background-position: center;
+        background-size: 500px;
+        background-repeat: no-repeat;
+        background-image: url("data:image/svg+xml;utf8, %3Csvg width=%22100%25%22 height=%22100%25%22 viewBox=%220 0 1000 1000%22 xmlns=%22http:%2F%2Fwww.w3.org%2F2000%2Fsvg%22 %3E %3Cdefs%3E %3Cfilter id=%22grain%22 x=%22-50vw%22 y=%22-50vh%22 width=%22100vw%22 height=%22100vh%22%3E %3CfeFlood flood-color=%22%23ffffff%22 result=%22neutral-gray%22 %2F%3E %3CfeTurbulence in=%22neutral-gray%22 type=%22fractalNoise%22 baseFrequency=%222.5%22 numOctaves=%22100%22 stitchTiles=%22stitch%22 result=%22noise%22 %2F%3E %3CfeColorMatrix in=%22noise%22 type=%22saturate%22 values=%220%22 result=%22destaturatedNoise%22 %3E%3C%2FfeColorMatrix%3E %3CfeComponentTransfer in=%22desaturatedNoise%22 result=%22theNoise%22%3E %3CfeFuncA type=%22table%22 tableValues=%220 0 0.05 0%22%3E%3C%2FfeFuncA%3E %3C%2FfeComponentTransfer%3E %3CfeBlend in=%22SourceGraphic%22 in2=%22theNoise%22 mode=%22soft-light%22 result=%22noisy-image%22 %2F%3E %3C%2Ffilter%3E %3CclipPath id=%22shape%22%3E %3Cpath fill=%22currentColor%22 d=%22M891%2C606.5Q793%2C713%2C714%2C813.5Q635%2C914%2C530.5%2C820.5Q426%2C727%2C285%2C742.5Q144%2C758%2C87%2C629Q30%2C500%2C179%2C437.5Q328%2C375%2C376.5%2C321.5Q425%2C268%2C518%2C213Q611%2C158%2C638.5%2C268.5Q666%2C379%2C827.5%2C439.5Q989%2C500%2C891%2C606.5Z%22%3E%3C%2Fpath%3E %3C%2FclipPath%3E %3C%2Fdefs%3E %3Cg filter=%22url(%23grain)%22 clip-path=%22url(%23shape)%22%3E %3Cpath fill=%22%23f0f0f0%22 d=%22M891%2C606.5Q793%2C713%2C714%2C813.5Q635%2C914%2C530.5%2C820.5Q426%2C727%2C285%2C742.5Q144%2C758%2C87%2C629Q30%2C500%2C179%2C437.5Q328%2C375%2C376.5%2C321.5Q425%2C268%2C518%2C213Q611%2C158%2C638.5%2C268.5Q666%2C379%2C827.5%2C439.5Q989%2C500%2C891%2C606.5Z%22 %2F%3E %3C%2Fg%3E %3C%2Fsvg%3E");
+
+    }
+
+    .pattern-bg-2 {
+        background-position: top;
+        background-size: 500px;
+        background-repeat: no-repeat;
+        /* background-image: url("data:image/svg+xml;utf8, %3Csvg width=%22100%25%22 height=%22100%25%22 viewBox=%220 0 1000 1000%22 xmlns=%22http:%2F%2Fwww.w3.org%2F2000%2Fsvg%22 %3E %3Cdefs%3E %3Cfilter id=%22grain%22 x=%22-50vw%22 y=%22-50vh%22 width=%22100vw%22 height=%22100vh%22%3E %3CfeFlood flood-color=%22%23ffffff%22 result=%22neutral-gray%22 %2F%3E %3CfeTurbulence in=%22neutral-gray%22 type=%22fractalNoise%22 baseFrequency=%222.5%22 numOctaves=%22100%22 stitchTiles=%22stitch%22 result=%22noise%22 %2F%3E %3CfeColorMatrix in=%22noise%22 type=%22saturate%22 values=%220%22 result=%22destaturatedNoise%22 %3E%3C%2FfeColorMatrix%3E %3CfeComponentTransfer in=%22desaturatedNoise%22 result=%22theNoise%22%3E %3CfeFuncA type=%22table%22 tableValues=%220 0 0.05 0%22%3E%3C%2FfeFuncA%3E %3C%2FfeComponentTransfer%3E %3CfeBlend in=%22SourceGraphic%22 in2=%22theNoise%22 mode=%22soft-light%22 result=%22noisy-image%22 %2F%3E %3C%2Ffilter%3E %3CclipPath id=%22shape%22%3E %3Cpath fill=%22currentColor%22 d=%22M777.5%2C609Q801%2C718%2C693%2C739.5Q585%2C761%2C476.5%2C833.5Q368%2C906%2C256.5%2C832Q145%2C758%2C150%2C629Q155%2C500%2C226%2C426Q297%2C352%2C325%2C199.5Q353%2C47%2C489%2C81Q625%2C115%2C763%2C162Q901%2C209%2C827.5%2C354.5Q754%2C500%2C777.5%2C609Z%22%3E%3C%2Fpath%3E %3C%2FclipPath%3E %3C%2Fdefs%3E %3Cg filter=%22url(%23grain)%22 clip-path=%22url(%23shape)%22%3E %3Cpath fill=%22%23f0f0f0%22 d=%22M777.5%2C609Q801%2C718%2C693%2C739.5Q585%2C761%2C476.5%2C833.5Q368%2C906%2C256.5%2C832Q145%2C758%2C150%2C629Q155%2C500%2C226%2C426Q297%2C352%2C325%2C199.5Q353%2C47%2C489%2C81Q625%2C115%2C763%2C162Q901%2C209%2C827.5%2C354.5Q754%2C500%2C777.5%2C609Z%22 %2F%3E %3C%2Fg%3E %3C%2Fsvg%3E"); */
+        background-image: url("data:image/svg+xml;utf8, %3Csvg width=%22100%25%22 height=%22100%25%22 viewBox=%220 0 1000 1000%22 xmlns=%22http:%2F%2Fwww.w3.org%2F2000%2Fsvg%22 %3E %3Cdefs%3E %3Cfilter id=%22grain%22 x=%22-50vw%22 y=%22-50vh%22 width=%22100vw%22 height=%22100vh%22%3E %3CfeFlood flood-color=%22%23ffffff%22 result=%22neutral-gray%22 %2F%3E %3CfeTurbulence in=%22neutral-gray%22 type=%22fractalNoise%22 baseFrequency=%222.5%22 numOctaves=%22100%22 stitchTiles=%22stitch%22 result=%22noise%22 %2F%3E %3CfeColorMatrix in=%22noise%22 type=%22saturate%22 values=%220%22 result=%22destaturatedNoise%22 %3E%3C%2FfeColorMatrix%3E %3CfeComponentTransfer in=%22desaturatedNoise%22 result=%22theNoise%22%3E %3CfeFuncA type=%22table%22 tableValues=%220 0 0.05 0%22%3E%3C%2FfeFuncA%3E %3C%2FfeComponentTransfer%3E %3CfeBlend in=%22SourceGraphic%22 in2=%22theNoise%22 mode=%22soft-light%22 result=%22noisy-image%22 %2F%3E %3C%2Ffilter%3E %3CclipPath id=%22shape%22%3E %3Cpath fill=%22currentColor%22 d=%22M854.5%2C644.5Q898%2C789%2C740%2C771Q582%2C753%2C475.5%2C828.5Q369%2C904%2C235.5%2C846.5Q102%2C789%2C168.5%2C644.5Q235%2C500%2C185.5%2C368Q136%2C236%2C277%2C241.5Q418%2C247%2C522%2C180Q626%2C113%2C728.5%2C186.5Q831%2C260%2C821%2C380Q811%2C500%2C854.5%2C644.5Z%22%3E%3C%2Fpath%3E %3C%2FclipPath%3E %3C%2Fdefs%3E %3Cg filter=%22url(%23grain)%22 clip-path=%22url(%23shape)%22%3E %3Cpath fill=%22%23f0f0f0%22 d=%22M854.5%2C644.5Q898%2C789%2C740%2C771Q582%2C753%2C475.5%2C828.5Q369%2C904%2C235.5%2C846.5Q102%2C789%2C168.5%2C644.5Q235%2C500%2C185.5%2C368Q136%2C236%2C277%2C241.5Q418%2C247%2C522%2C180Q626%2C113%2C728.5%2C186.5Q831%2C260%2C821%2C380Q811%2C500%2C854.5%2C644.5Z%22 %2F%3E %3C%2Fg%3E %3C%2Fsvg%3E");
+    }
+
+
     ::v-deep(.p-card-body) {
         padding: 0 !important;
     }

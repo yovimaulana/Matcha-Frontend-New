@@ -248,6 +248,23 @@ updatePasswordUser($iduser, $data) {
 
   postIgnoreData(id_kegiatan, iduser, data) {
     return axios.post('/api/kegiatan/'+id_kegiatan+'/matching/users/'+iduser+'/ignore-data', data)
+  },
+
+  getMatchingResultsUser(idkegiatan, iduser) {
+    return axios.get('/api/kegiatan/'+idkegiatan+'/matching/users/'+iduser+'/matching-results')
+  },
+
+  getDetailMatchingResultsUser(idkegiatan, iduser, idspool) {
+    return axios.get('/api/kegiatan/'+idkegiatan+'/matching/users/'+iduser+'/matching-results/'+idspool)
+  },
+  cancelMatchingResult(idspool, idsbr, idkegiatan, iduser) {
+    if(idsbr) {
+      return axios.post('/api/kegiatan/'+idkegiatan+'/matching/users/'+iduser+'/matching-results/cancel/'+idspool+'/'+idsbr)
+    }
+    return axios.post('/api/kegiatan/'+idkegiatan+'/matching/users/'+iduser+'/matching-results/cancel/'+idspool)
+  },
+  cancelAllMatching(idspool, idkegiatan, iduser) {
+    return axios.post('/api/kegiatan/'+idkegiatan+'/matching/users/'+iduser+'/matching-results/cancel-all/'+idspool)
   }
   
 

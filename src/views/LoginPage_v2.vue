@@ -4,14 +4,14 @@
             <div class="auth-inner py-2">
                 <div class="card mb-0">
                     <div class="card-body">
-                        <div style="text-align: center; margin-top: 20px;">
+                        <div class="cst-logo-container">
                             <a href="#" target="_self" class="brand-logo">
-                                <img style="height: 60px;" src="../assets/bps.svg">
+                                <img src="../assets/bps.svg">
                             </a>
                         </div>
-                        <h4 class="card-title mb-1" style="color:#5e5873; margin-bottom: 5px; text-align: center;"> Welcome to Matcha App! 👋 </h4>
-                        <p class="card-text mb-2" style="font-size: small; color: #6e6b7b; margin-bottom: 40px; margin-top: 0; text-align: center;">
-                            <span>Everything is so <span style="font-weight: 900;color:#78b34d"> Matcha </span> better
+                        <h4 class="card-title mb-1 cst-card-title"> Welcome to Matcha App! 👋 </h4>
+                        <p class="card-text mb-2">
+                            <span>Everything is so <span class="cst-title-matcha"> Matcha </span> better
                                 with
                                 you</span>
                         </p>
@@ -43,9 +43,9 @@
                             </div>
 
                             <div class="field p-mb-1 col-12 md:col-12 sm:col-12">
-                                <Button :loading="loadingButton" label="Login" @click="userLogin()"
-                                    class="p-mb-2 p-ripple" style="border-color: #a49df5!important; background-color: #a49df5!important;" />
-                                <Button @click="goToSSO()" label="SSO BPS" class="p-button-info" />
+                                <Button :loading="loadingButton" label="LOG IN" @click="userLogin()"
+                                    class="p-mb-2 p-ripple p-button-primary" />
+                                <Button @click="goToSSO()" label="Sign In With SSO" class="p-button p-button-secondary p-component p-button-outlined" icon="pi pi-key" iconPos="left" />
                             </div>
                         </div>
                     </div>
@@ -53,8 +53,7 @@
             </div>
         </div>
 
-        <Loading v-model:active="loadingDialog" :is-full-page="true" :color="'#86d166'" :background-color="'black'"
-            :opacity="0.75">
+        <Loading v-model:active="loadingDialog" :is-full-page="true" class="cst-loading-ovrly">
             <slot>
                 <MyLoading></MyLoading>
             </slot>
@@ -76,7 +75,7 @@
     import MyLoading from '../components/MyLoading2.vue'
     import Loading from 'vue-loading-overlay';
     import 'vue-loading-overlay/dist/vue-loading.css';
-import DataService from '../services/DataService';
+    import DataService from '../services/DataService';
 
     export default {
         components: {
@@ -387,5 +386,37 @@ import DataService from '../services/DataService';
 
     .auth-wrapper .brand-logo {
         margin: 1rem 0 2rem 0;
+    }
+
+    .cst-logo-container {
+        text-align: center; 
+        margin-top: 20px;
+    }
+
+    .cst-logo-container a img{
+        height: 60px;
+    }
+
+    .cst-card-title {
+        color:#5e5873; 
+        margin-bottom: 5px; 
+        text-align: center;
+    }
+
+    h4.cst-card-title + p {
+        font-size: small; color: #6e6b7b; margin-bottom: 40px; margin-top: 0; text-align: center;
+    }
+
+    .cst-title-matcha {
+        font-weight: 900;color:#78b34d
+    }
+
+    ::v-deep(.p-button .p-button-icon-left) {
+        margin-right: 0 !important;
+    }
+
+    ::v-deep(.cst-loading-ovrly .vld-background)  {        
+        background-color: black;
+        opacity: 0.75;
     }
 </style>

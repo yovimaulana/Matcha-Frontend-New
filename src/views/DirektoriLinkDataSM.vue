@@ -2,98 +2,125 @@
     <div class="about">
         <Toast />
         <br><br>
-        <img src="../assets/bps.svg" class="hvr-bob mybob p-mt-1 " style="width: 100px" alt="" srcset="">
-        <div class="p-col-12 p-lg-12 p-grid p-d-flex p-jc-center p-ai-center padded" style="margin-left: 0;">
-
-            <Card @mouseover="myShadow = ''" @mouseleave="myShadow = ''"
-                :class="myCardBgColorData+' '+myTextColorData+' '+myShadow+' p-col-8 p-m-2 animate__animated animate__fadeIn '"
-                style="border-radius: 18px;">
+        <div class="cst-logo-hero">
+            <img src="../assets/bps.svg" class="hvr-bob mybob p-mt-1">
+        </div>
+        <div class="p-col-12 p-lg-12 p-grid p-d-flex p-jc-center p-ai-center padded">
+            <Card class="p-col-8 p-m-2 animate__animated animate__fadeIn">
                 <template #title>
-                    Form Katalog Data SBR
+                    <div class="cst-title-katalog">
+                        Form Katalog Data SBR
+                    </div>
 
                 </template>
                 <template #content>
-                    <div class=" ">
-                        <div class="p-fluid ">
-                            <div class="p-field p-mb-4 ">
-                                <span class="p-float-label ">
-                                    <Dropdown v-model="formModel.subjectMatter" :options="direktoratOptions"
+                    <div>
+                        <div class="p-fluid">
+                            <div class="p-field p-mb-4">
+                                <span class="p-float-label">
+                                    <Dropdown  :filter="true" v-model="formModel.subjectMatter" :options="direktoratOptions"
                                         optionLabel="name" optionValue="code" placeholder="Pilih Direktorat"
                                         :class="classFormModel.subjectMatter" />
 
                                 </span>
                             </div>
                             <div class="p-field p-mb-4">
-
                                 <span class="p-float-label">
                                     <InputText v-model="formModel.namaKegiatan" placeholder="Nama Kegiatan"
                                         id="nama_kegiatan" type="text" :class="classFormModel.namaKegiatan" />
                                     <label for="nama_kegiatan">Nama Kegiatan</label>
                                 </span>
                             </div>
-                            <div class="p-field p-mb-4">
+                            <Fieldset legend="Contact Person">
+                                <div class="p-field p-mb-4">
+                                    <span class="p-float-label">
+                                        <InputText v-model="formModel.contactPerson" placeholder="Nama (Contact Person)"
+                                            id="contact_person" type="text" :class="classFormModel.contactPerson" />
+                                        <label for="contact_person">Nama (Contact Person)</label>
+                                    </span>
+                                    <!-- <span style="float:left; color: grey; font-size: small; text-align: left">Contoh Isian: Nama - No HP ->
+                                        Rudi - 0857111111111</span> -->
+                                </div>
 
-                                <span class="p-float-label">
-                                    <InputText v-model="formModel.contactPerson" placeholder="Contact Person"
-                                        id="contact_person" type="text" :class="classFormModel.contactPerson" />
-                                    <label for="contact_person">Contact Person</label>
-                                </span>
-                                <span style="float:left; color: grey; font-size: small; text-align: left">Contoh Isian: Nama - No HP ->
-                                    Rudi - 0857111111111</span>
-                            </div>
-                            <div class="p-field p-mb-4" style="margin-top: 35px">
+                                <div class="p-field p-mb-4">
+                                    <span class="p-float-label">
+                                        <InputText v-model="formModel.nohp_contactPerson" placeholder="No HP (Contact Person)"
+                                            id="nohp_contact_person" type="text" :class="classFormModel.nohp_contactPerson" />
+                                        <label for="nohp_contact_person">No HP (Contact Person)</label>
+                                    </span>
+                                    <!-- <span style="float:left; color: grey; font-size: small; text-align: left">Contoh Isian: Nama - No HP ->
+                                        Rudi - 0857111111111</span> -->
+                                </div>
+                                <div class="p-field p-mb-4">
+                                    <span class="p-float-label">
+                                        <InputText v-model="formModel.email_contactPerson" placeholder="Email (Contact Person)"
+                                            id="email_contact_person" type="text" :class="classFormModel.email_contactPerson" />
+                                        <label for="emai_contact_person">Email (Contact Person)</label>
+                                    </span>
+                                    <!-- <span style="float:left; color: grey; font-size: small; text-align: left">Contoh Isian: 0857111111111</span> -->
+                                </div>
 
+                                <div class="p-field">
+                                    <span class="p-float-label">
+                                        <InputText v-model="formModel.emailSM_contactPerson" placeholder="Email Subject Matter / Fungsi"
+                                            id="emailsm_contact_person" type="text" :class="classFormModel.emailSM_contactPerson" />
+                                        <label for="emailsm_contact_person">Email Subject Matter / Fungsi</label>
+                                    </span>
+                                    <!-- <span style="float:left; color: grey; font-size: small; text-align: left">Contoh Isian: Nama - No HP ->
+                                        Rudi - 0857111111111</span> -->
+                                </div>
+                            </Fieldset>                                                                                                    
+
+                            <div class="p-field p-mb-4 cst-container-sel-year">
                                 <span class="p-float-label">
                                     <MultiSelect v-model="selectedTahun" :options="tahunKegiatanOptions"
                                         optionLabel="name" placeholder="Tahun Kegiatan"
                                         :class="classFormModel.selectedTahun" />
-
                                 </span>
                             </div>
 
 
                             <div class="p-grid" v-if="this.selectedTahun !== []">
-                                <!-- 2020 -->
-                                <!-- {{this.selectedTahun.filter(e => e.code === '2020')[0].code}} -->
-                                <div class="p-col-12 p-lg-6" v-if="tahun2020Display">
-                                    <h1>2020</h1>
+                                <!-- 2022 -->
+                                <div class="p-col-12 p-lg-4 cst-katalog-year" v-if="tahun2022Display ">
+                                    <h1>2022</h1>
                                     <div class="p-field p-mb-4">
                                         <span class="p-float-label">
-                                            <InputText v-model="formModel.linkData2020" placeholder="Link Data 2020"
-                                                id="linkdata2020" type="text" :class="classFormModel.linkData2020" />
-                                            <label for="linkdata2020">Link Data 2020</label>
+                                            <InputText v-model="formModel.linkData2022" placeholder="Link Data 2022"
+                                                id="linkdata2022" type="text" :class="classFormModel.linkData2022" />
+                                            <label for="linkdata2022">Link Data 2022</label>
                                         </span>
                                     </div>
                                     <div class="p-field p-mb-4">
 
                                         <span class="p-float-label">
-                                            <InputText v-model="formModel.linkMetadata2020"
-                                                placeholder="Link Metadata 2020" id="nama_kegiatan" type="text"
-                                                :class="classFormModel.linkMetadata2020" />
-                                            <label for="linkmetadata2020">Link Metadata 2020</label>
+                                            <InputText v-model="formModel.linkMetadata2022"
+                                                placeholder="Link Metadata 2022" id="nama_kegiatan" type="text"
+                                                :class="classFormModel.linkMetadata2022" />
+                                            <label for="linkmetadata2022">Link Metadata 2022</label>
                                         </span>
                                     </div>
                                     <div class="p-field p-mb-4">
 
                                         <span class="p-float-label">
-                                            <InputText v-model="formModel.linkBukuPedoman2020"
-                                                placeholder="Link Buku Pedoman 2020" id="linkBukuPedoman2020"
-                                                type="text" :class="classFormModel.linkBukuPedoman2020" />
-                                            <label for="linkBukuPedoman2020">Link Buku Pedoman 2020</label>
+                                            <InputText v-model="formModel.linkBukuPedoman2022"
+                                                placeholder="Link Buku Pedoman 2022" id="linkBukuPedoman2022"
+                                                type="text" :class="classFormModel.linkBukuPedoman2022" />
+                                            <label for="linkBukuPedoman2022">Link Buku Pedoman 2022</label>
                                         </span>
                                     </div>
                                     <div class="p-field p-mb-4">
 
                                         <span class="p-float-label">
-                                            <InputText v-model="formModel.linkKuesioner2020"
-                                                placeholder="Link Kuisioner 2020" id="linkKuesioner2020" type="text"
-                                                :class="classFormModel.linkKuesioner2020" />
-                                            <label for="linkKuesioner2020">Link Kuisioner 2020</label>
+                                            <InputText v-model="formModel.linkKuesioner2022"
+                                                placeholder="Link Kuisioner 2022" id="linkKuesioner2022" type="text"
+                                                :class="classFormModel.linkKuesioner2022" />
+                                            <label for="linkKuesioner2022">Link Kuisioner 2022</label>
                                         </span>
                                     </div>
                                 </div>
                                 <!-- 2021 -->
-                                <div class="p-col-12 p-lg-6" v-if="tahun2021Display ">
+                                <div class="p-col-12 p-lg-4 cst-katalog-year" v-if="tahun2021Display ">
                                     <h1>2021</h1>
                                     <div class="p-field p-mb-4">
                                         <span class="p-float-label">
@@ -130,22 +157,59 @@
                                         </span>
                                     </div>
                                 </div>
+                                <!-- 2020 -->                                
+                                <div class="p-col-12 p-lg-4 cst-katalog-year" v-if="tahun2020Display">
+                                    <h1>2020</h1>
+                                    <div class="p-field p-mb-4">
+                                        <span class="p-float-label">
+                                            <InputText v-model="formModel.linkData2020" placeholder="Link Data 2020"
+                                                id="linkdata2020" type="text" :class="classFormModel.linkData2020" />
+                                            <label for="linkdata2020">Link Data 2020</label>
+                                        </span>
+                                    </div>
+                                    <div class="p-field p-mb-4">
+
+                                        <span class="p-float-label">
+                                            <InputText v-model="formModel.linkMetadata2020"
+                                                placeholder="Link Metadata 2020" id="nama_kegiatan" type="text"
+                                                :class="classFormModel.linkMetadata2020" />
+                                            <label for="linkmetadata2020">Link Metadata 2020</label>
+                                        </span>
+                                    </div>
+                                    <div class="p-field p-mb-4">
+
+                                        <span class="p-float-label">
+                                            <InputText v-model="formModel.linkBukuPedoman2020"
+                                                placeholder="Link Buku Pedoman 2020" id="linkBukuPedoman2020"
+                                                type="text" :class="classFormModel.linkBukuPedoman2020" />
+                                            <label for="linkBukuPedoman2020">Link Buku Pedoman 2020</label>
+                                        </span>
+                                    </div>
+                                    <div class="p-field p-mb-4">
+
+                                        <span class="p-float-label">
+                                            <InputText v-model="formModel.linkKuesioner2020"
+                                                placeholder="Link Kuisioner 2020" id="linkKuesioner2020" type="text"
+                                                :class="classFormModel.linkKuesioner2020" />
+                                            <label for="linkKuesioner2020">Link Kuisioner 2020</label>
+                                        </span>
+                                    </div>
+                                </div>
+                                
+                                
                             </div>
                             <!-- <Button label="Tambah Kegiatan" class="p-button-info " @click="submit()" icon="" />  -->
                             <Button label="Submit" class="p-button-success " @click="submit()" icon="" />
 
                         </div>
+                        
                         <hr class="dashed-2">
-                        <div class=" " style="margin-top: 30px" >
-                            <p class="">COPYRIGHT © 2022 <span
-                                    style="color: #00aeef;font-weight: 700;">B</span><span
-                                    style="color: #8cc63f;font-weight: 700;">P</span><span
-                                    style="color: #f7941e;font-weight: 700;">S</span>, All rights Reserved 
+                        <div class="cst-footer">
+                            <p>COPYRIGHT © 2022 <span id="cst-footer-b">B</span><span id="cst-footer-p">P</span><span id="cst-footer-s">S</span>, All rights Reserved 
                             <br/>Thank you
-                                so <span style="color: #78b34d; font-weight: 700;">MatchA</span> for what you do</p>
-                            <p class=""><span style="font-weight: 700;">&lt; /&gt; &nbsp;</span> dengan <i
-                                    class="p-ml-2 pi pi-heart-fill animate__animated animate__flash animate__slow animate__infinite	infinite hvr-pulse-grow "
-                                    style="color: #D32F2F"></i></p>
+                                so <span id="cst-footer-matcha-txt">MatchA</span> for what you do</p>
+                            <p><span id="cst-footer-heart">&lt; /&gt; &nbsp;</span> dengan <i
+                                    class="p-ml-2 pi pi-heart-fill animate__animated animate__flash animate__slow animate__infinite	infinite hvr-pulse-grow "></i></p>
                         </div>
 
                     </div>
@@ -158,21 +222,23 @@
 
 
         <Loading v-model:active="loadingDialog" :is-full-page="true" :color="'#86d166'" :background-color="'black'"
-            :opacity="0.7">
+            :opacity="0.75">
             <slot>
-
                 <MyLoading></MyLoading>
             </slot>
-        </Loading>
+        </Loading> 
+
+        <ConfirmDialog></ConfirmDialog>
 
     </div>
 </template>
 <script>
     import InputText from 'primevue/inputtext';
     import Toast from 'primevue/toast';
-    import MyLoading from '../components/MyLoading.vue'
+    import MyLoading from '../components/MyLoading2.vue'
     import MultiSelect from 'primevue/multiselect';
-
+    import ConfirmDialog from 'primevue/confirmdialog';
+    import Fieldset from 'primevue/fieldset';
 
     import Loading from 'vue-loading-overlay';
     import 'vue-loading-overlay/dist/vue-loading.css';
@@ -184,7 +250,9 @@
             Toast,
             MultiSelect,
             MyLoading,
-            Loading
+            Loading,
+            ConfirmDialog,
+            Fieldset
             // Dropdown
         },
         data() {
@@ -246,28 +314,37 @@
                         name: 'Neraca Pengeluaran',
                         code: 'Neraca Pengeluaran'
                     },
-                    {
-                        name: 'Analisis dan Pengembangan Statistik',
-                        code: 'Analisis dan Pengembangan Statistik'
-                    },
+                    // {
+                    //     name: 'Analisis dan Pengembangan Statistik',
+                    //     code: 'Analisis dan Pengembangan Statistik'
+                    // },
 
 
                 ],
-                tahunKegiatanOptions: [{
-                        name: '2020',
-                        code: '2020'
+                tahunKegiatanOptions: [
+                    {
+                        name: '2022',
+                        code: '2022'
                     },
                     {
                         name: '2021',
                         code: '2021'
                     },
+                    {
+                        name: '2020',
+                        code: '2020'
+                    },                                        
                 ],
                 tahun2020Display: false,
                 tahun2021Display: false,
+                tahun2022Display: false,
                 formModel: {
                     subjectMatter: null,
                     namaKegiatan: null,
                     contactPerson: null,
+                    nohp_contactPerson: null,
+                    email_contactPerson: null,
+                    emailSM_contactPerson: null,
                     linkData2020: null,
                     linkMetadata2020: null,
                     linkBukuPedoman2020: null,
@@ -275,12 +352,19 @@
                     linkData2021: null,
                     linkMetadata2021: null,
                     linkBukuPedoman2021: null,
-                    linkKuesioner2021: null
+                    linkKuesioner2021: null,
+                    linkData2022: null,
+                    linkMetadata2022: null,
+                    linkBukuPedoman2022: null,
+                    linkKuesioner2022: null
                 },
                 classFormModel: {
                     subjectMatter: null,
                     namaKegiatan: null,
                     contactPerson: null,
+                    nohp_contactPerson: null,
+                    email_contactPerson: null,
+                    emailSM_contactPerson: null,
                     selectedTahun: null,
                     linkData2020: null,
                     linkMetadata2020: null,
@@ -289,7 +373,11 @@
                     linkData2021: null,
                     linkMetadata2021: null,
                     linkBukuPedoman2021: null,
-                    linkKuesioner2021: null
+                    linkKuesioner2021: null,
+                    linkData2022: null,
+                    linkMetadata2022: null,
+                    linkBukuPedoman2022: null,
+                    linkKuesioner2022: null
                 },
                 loadingDialog: false,
                 finalForm: null
@@ -301,138 +389,162 @@
                 // console.log('old', oldValue)
                 this.tahun2020Display = false
                 this.tahun2021Display = false
+                this.tahun2022Display = false
                 if (newValue === []) {
                     this.tahun2020Display = false
                     this.tahun2021Display = false
+                    this.tahun2022Display = false
                 }
 
                 newValue.forEach(element => {
                     if (element.code === '2020') this.tahun2020Display = true
                     if (element.code === '2021') this.tahun2021Display = true
+                    if (element.code === '2022') this.tahun2022Display = true
                 });
             }
         },
         methods: {
             async submit() {
-                this.loadingDialog = true
+                
                 if (this.validate()) {
-                    if (this.tahun2020Display && this.tahun2021Display) {
-                         var allForm = [{
+                    let tempForm = []                   
+
+                    if (this.tahun2020Display) {
+                        tempForm.push({
                             "tahun_kegiatan": 2020,
                             "subject_matter": this.formModel.subjectMatter,
                             "nama_kegiatan": this.formModel.namaKegiatan,
-                            "contact_person": this.formModel.contactPerson,
+                            "contact_person": this.formModel.contactPerson,                            
+                            "nohp_contact_person": this.formModel.nohp_contactPerson,
+                            "email_contact_person": this.formModel.email_contactPerson,
+                            "emailSM_contact_person": this.formModel.emailSM_contactPerson,
                             "link_data": this.formModel.linkData2020,
                             "link_metadata": this.formModel.linkMetadata2020,
                             "link_bukped": this.formModel.linkBukuPedoman2020,
                             "link_kuesioner": this.formModel.linkKuesioner2020
-                        },
-                        {
+                        })
+                    }
+                    
+
+                    if (this.tahun2021Display) {
+                        tempForm.push({
                             "tahun_kegiatan": 2021,
                             "subject_matter": this.formModel.subjectMatter,
                             "nama_kegiatan": this.formModel.namaKegiatan,
                             "contact_person": this.formModel.contactPerson,
+                            "nohp_contact_person": this.formModel.nohp_contactPerson,
+                            "email_contact_person": this.formModel.email_contactPerson,
+                            "emailSM_contact_person": this.formModel.emailSM_contactPerson,
                             "link_data": this.formModel.linkData2021,
                             "link_metadata": this.formModel.linkMetadata2021,
                             "link_bukped": this.formModel.linkBukuPedoman2021,
                             "link_kuesioner": this.formModel.linkKuesioner2021
-                        }
-                    ]
-                    this.finalForm = allForm
-
+                        })                        
                     }
 
-                    if (this.tahun2020Display && (this.tahun2021Display == false)) {
-                        var form2020 = [{
-                            "tahun_kegiatan": 2020,
+                    if(this.tahun2022Display) {
+                        
+                        tempForm.push({
+                            "tahun_kegiatan": 2022,
                             "subject_matter": this.formModel.subjectMatter,
                             "nama_kegiatan": this.formModel.namaKegiatan,
                             "contact_person": this.formModel.contactPerson,
-                            "link_data": this.formModel.linkData2020,
-                            "link_metadata": this.formModel.linkMetadata2020,
-                            "link_bukped": this.formModel.linkBukuPedoman2020,
-                            "link_kuesioner": this.formModel.linkKuesioner2020
-                        }]
-
-                        this.finalForm = form2020
+                            "nohp_contact_person": this.formModel.nohp_contactPerson,
+                            "email_contact_person": this.formModel.email_contactPerson,
+                            "emailSM_contact_person": this.formModel.emailSM_contactPerson,
+                            "link_data": this.formModel.linkData2022,
+                            "link_metadata": this.formModel.linkMetadata2022,
+                            "link_bukped": this.formModel.linkBukuPedoman2022,
+                            "link_kuesioner": this.formModel.linkKuesioner2022
+                        })
                     }
 
-                    if (this.tahun2021Display && (this.tahun2020Display == false)) {
-                        var form2021 = [ {
-                            "tahun_kegiatan": 2021,
-                            "subject_matter": this.formModel.subjectMatter,
-                            "nama_kegiatan": this.formModel.namaKegiatan,
-                            "contact_person": this.formModel.contactPerson,
-                            "link_data": this.formModel.linkData2021,
-                            "link_metadata": this.formModel.linkMetadata2021,
-                            "link_bukped": this.formModel.linkBukuPedoman2021,
-                            "link_kuesioner": this.formModel.linkKuesioner2021
-                        }]
+                    this.finalForm = tempForm
 
-                        this.finalForm = form2021
-                    }
-                   
-                    try {
-                        await axios.post("https://matcha-dev.bps.go.id/matcha-backend/api/direktori-link-sm",
-                                this.finalForm)
-                            .then(response => {
-                                console.log('response', response)
-                                console.log('final Form', this.finalForm)
-                                this.formModel = {
-                                    subjectMatter: null,
-                                    namaKegiatan: null,
-                                    contactPerson: null,
-                                    linkData2020: null,
-                                    linkMetadata2020: null,
-                                    linkBukuPedoman2020: null,
-                                    linkKuesioner2020: null,
-                                    linkData2021: null,
-                                    linkMetadata2021: null,
-                                    linkBukuPedoman2021: null,
-                                    linkKuesioner2021: null
-                                }
+                    console.log(this.finalForm)
 
-                                this.classFormModel = {
-                                    subjectMatter: null,
-                                    namaKegiatan: null,
-                                    contactPerson: null,
-                                    selectedTahun: null,
-                                    linkData2020: null,
-                                    linkMetadata2020: null,
-                                    linkBukuPedoman2020: null,
-                                    linkKuesioner2020: null,
-                                    linkData2021: null,
-                                    linkMetadata2021: null,
-                                    linkBukuPedoman2021: null,
-                                    linkKuesioner2021: null
-                                }
-                                this.loadingDialog = false
-                                this.$toast.add({
-                                    severity: 'success',
-                                    summary: 'Berhasil !',
-                                    detail: 'Data berhasil ditambahkan',
-                                    life: 3000
-                                });
-                            }).catch(error => {
-                                console.log(error)
+                    this.$confirm.require({
+                        message: 'Are you sure you want to proceed?',
+                        header: 'Confirmation',
+                        icon: 'pi pi-exclamation-triangle',
+                        accept: async () => {
+                            this.loadingDialog = true
+                            try {
+                                await axios.post("https://matcha-dev.bps.go.id/matcha-backend/api/direktori-link-sm",
+                                        this.finalForm)
+                                    .then(response => {
+                                        // console.log('response', response)
+                                        // console.log('final Form', this.finalForm)
+                                        this.formModel = {
+                                            subjectMatter: null,
+                                            namaKegiatan: null,
+                                            contactPerson: null,
+                                            nohp_contact_person: null,
+                                            email_contact_person: null,
+                                            emailSM_contact_person: null,
+                                            linkData2020: null,
+                                            linkMetadata2020: null,
+                                            linkBukuPedoman2020: null,
+                                            linkKuesioner2020: null,
+                                            linkData2021: null,
+                                            linkMetadata2021: null,
+                                            linkBukuPedoman2021: null,
+                                            linkKuesioner2021: null,
+                                            linkData2022: null,
+                                            linkMetadata2022: null,
+                                            linkBukuPedoman2022: null,
+                                            linkKuesioner2022: null
+                                        }
+
+                                        this.classFormModel = {
+                                            subjectMatter: null,
+                                            namaKegiatan: null,
+                                            contactPerson: null,
+                                            nohp_contact_person: null,
+                                            email_contact_person: null,
+                                            emailSM_contact_person: null,
+                                            selectedTahun: null,
+                                            linkData2020: null,
+                                            linkMetadata2020: null,
+                                            linkBukuPedoman2020: null,
+                                            linkKuesioner2020: null,
+                                            linkData2022: null,
+                                            linkMetadata2022: null,
+                                            linkBukuPedoman2022: null,
+                                            linkKuesioner2022: null
+                                        }
+                                        this.loadingDialog = false
+                                        this.$toast.add({
+                                            severity: 'success',
+                                            summary: 'Berhasil !',
+                                            detail: 'Data berhasil ditambahkan',
+                                            life: 3000
+                                        });
+                                    }).catch(error => {
+                                        // console.log(error)
+                                        this.loadingDialog = false
+                                        this.$toast.add({
+                                            severity: 'error',
+                                            summary: 'Gagal !',
+                                            detail: 'Terdapat kesalahan pada jaringan anda',
+                                            life: 3000
+                                        })
+                                    })
+                            } catch (error) {
+                                // console.log('error service', error)
                                 this.loadingDialog = false
                                 this.$toast.add({
                                     severity: 'error',
                                     summary: 'Gagal !',
-                                    detail: 'Terdapat kesalahan pada jaringan anda',
+                                    detail: 'Ups ada error',
                                     life: 3000
                                 })
-                            })
-                    } catch (error) {
-                        console.log('error service', error)
-                        this.loadingDialog = false
-                        this.$toast.add({
-                            severity: 'error',
-                            summary: 'Gagal !',
-                            detail: 'Ups ada error',
-                            life: 3000
-                        })
-                    }
+                            }
+                        },
+                        reject: () => {
+                            // this.$toast.add({severity:'error', summary:'Rejected', detail:'You have rejected', life: 3000});
+                        }
+                    });                                
                 } else {
                     this.loadingDialog = false
                     this.$toast.add({
@@ -442,109 +554,83 @@
                         life: 3000
                     });
                 }
+                
             },
             validate() {
                 if (this.formModel.subjectMatter !== null &&
                     this.formModel.namaKegiatan !== null &&
-                    this.formModel.contactPerson !== null &&
+                    this.formModel.contactPerson !== null && 
+                    this.formModel.nohp_contactPerson !== null && 
+                    this.formModel.email_contactPerson !== null && 
                     this.selectedTahun.length !== 0
                 ) {
-                    console.log('second if')
+                   
                     if (this.selectedTahun.length > 0) {
-                        if (this.tahun2020Display && this.tahun2021Display) {
-                            if (
-                                this.formModel.linkMetadata2020 !== null &&
-                                this.formModel.linkBukuPedoman2020 !== null &&
-                                this.formModel.linkKuesioner2020 !== null &&
-                                this.formModel.linkData2021 !== null &&
-                                this.formModel.linkMetadata2021 !== null &&
-                                this.formModel.linkBukuPedoman2021 !== null &&
-                                this.formModel.linkKuesioner2021 !== null
-                            ) {
-                                // this.selectedTahun.filter(e => e.code === '2020')
-                                return true
-                            } else {
-                                Object.keys(this.classFormModel).forEach(element => {
-                                    this.formModel[element] == null || this.formModel[element].trim() == '' ? this.classFormModel[element] =
-                                        'p-invalid' :
-                                        this
-                                        .classFormModel[element] = ''
-                                });
-                                return false
-                            }
+
+                        if(this.tahun2020Display) {
+                            if(this.formModel.linkMetadata2020 == null ||
+                                this.formModel.linkBukuPedoman2020 == null ||
+                                this.formModel.linkKuesioner2020 == null || this.formModel.linkData2020 == null) {
+                                    Object.keys(this.classFormModel).forEach(element => {
+                                        this.formModel[element] == null || this.formModel[element].trim() == '' ? this.classFormModel[element] =
+                                            'p-invalid' :
+                                            this
+                                            .classFormModel[element] = ''
+                                    });
+                                    return false
+                                }
                         }
 
-                        if (this.tahun2020Display && (this.tahun2021Display == false)) {
-                            if (
-                                this.formModel.linkData2020 !== null &&
-                                this.formModel.linkMetadata2020 !== null &&
-                                this.formModel.linkBukuPedoman2020 !== null &&
-                                this.formModel.linkKuesioner2020 !== null
-                            ) {
-                                // this.selectedTahun.filter(e => e.code === '2020')
-                                return true
-                            } else {
-                                Object.keys(this.classFormModel).forEach(element => {
-                                    this.formModel[element] == null || this.formModel[element].trim() == '' ? this.classFormModel[element] =
-                                        'p-invalid' :
-                                        this
-                                        .classFormModel[element] = ''
-                                });
-                                return false
-                            }
+                        if(this.tahun2021Display) {
+                            if(this.formModel.linkMetadata2021 == null ||
+                                this.formModel.linkBukuPedoman2021 == null ||
+                                this.formModel.linkKuesioner2021 == null || this.formModel.linkData2021 == null) {
+                                    Object.keys(this.classFormModel).forEach(element => {
+                                        this.formModel[element] == null || this.formModel[element].trim() == '' ? this.classFormModel[element] =
+                                            'p-invalid' :
+                                            this
+                                            .classFormModel[element] = ''
+                                    });
+                                    return false
+                                }
                         }
 
-                        if (this.tahun2021Display && (this.tahun2020Display == false)) {
-                            if (
-                                this.formModel.linkData2021 !== null &&
-                                this.formModel.linkMetadata2021 !== null &&
-                                this.formModel.linkBukuPedoman2021 !== null &&
-                                this.formModel.linkKuesioner2021 !== null
-                            ) {
-                                // this.selectedTahun.filter(e => e.code === '2020')
-                                return true
-                            } else {
-                                Object.keys(this.classFormModel).forEach(element => {
-                                    this.formModel[element] == null || this.formModel[element].trim() == '' ? this.classFormModel[element] =
-                                        'p-invalid' :
-                                        this
-                                        .classFormModel[element] = ''
-                                });
-                                return false
-                            }
+                        if(this.tahun2022Display) {
+                            if(this.formModel.linkMetadata2022 == null ||
+                                this.formModel.linkBukuPedoman2022 == null ||
+                                this.formModel.linkKuesioner2022 == null || this.formModel.linkData2022 == null) {
+                                    Object.keys(this.classFormModel).forEach(element => {
+                                        this.formModel[element] == null || this.formModel[element].trim() == '' ? this.classFormModel[element] =
+                                            'p-invalid' :
+                                            this
+                                            .classFormModel[element] = ''
+                                    });
+                                    return false
+                                }
                         }
 
-                    } else {
-                        Object.keys(this.classFormModel).forEach(element => {
-                            this.formModel[element] == null || this.formModel[element].trim() == '' ? this.classFormModel[element] = 'p-invalid' : this
-                                .classFormModel[element] = ''
-                        });
-                        return false
+                        return true                        
+
+                    } 
+
+                    // Object.keys(this.classFormModel).forEach(element => {
+                    //     this.formModel[element] == null || this.formModel[element].trim() == '' ? this.classFormModel[element] = 'p-invalid' : this
+                    //         .classFormModel[element] = ''
+                    // });
+                    // return false
+
+                } 
+
+
+                Object.keys(this.classFormModel).forEach(element => {
+                    if (element != 'selectedTahun' && element != 'emailSM_contactPerson') {
+                        this.formModel[element] == null || this.formModel[element].trim() == '' ? this.classFormModel[element] = 'p-invalid' : this
+                            .classFormModel[element] = ''
                     }
-
-                } else {
-
-                    Object.keys(this.classFormModel).forEach(element => {
-                        // console.log(typeof element, element)
-                        if (element != 'selectedTahun') {
-                            // console.log('before', element, this.classFormModel[element], this.formModel[element])
-                            this.formModel[element] == null || this.formModel[element].trim() == '' ? this.classFormModel[element] = 'p-invalid' : this
-                                .classFormModel[element] = ''
-                            console.log('after', element, this.classFormModel[element], this.formModel[element])
-                        }
-                        this.selectedTahun.length == 0 ? this.classFormModel['selectedTahun'] = 'p-invalid' : this
-                            .classFormModel['selectedTahun'] = ''
-
-
-                    });
-                    return false
-                }
-
-
-
-
-
-
+                    this.selectedTahun.length == 0 ? this.classFormModel['selectedTahun'] = 'p-invalid' : this
+                        .classFormModel['selectedTahun'] = ''
+                });
+                return false
 
             }
         }
@@ -565,6 +651,10 @@
         .padded .p-card {
             flex: 100%;
         }
+    }
+
+    div.padded {
+        margin-left: 0;
     }
     .dashed-2 {
         margin-top: 35px;
@@ -664,5 +754,53 @@
         animation-fill-mode: forwards;
         -webkit-animation-direction: normal, alternate;
         animation-direction: normal, alternate;
+    }
+
+    .cst-logo-hero {
+        text-align: center;
+    }
+
+    div.cst-logo-hero img {
+        width: 100px;
+    }   
+    
+    .cst-title-katalog {
+        text-align: center;
+    }
+
+    div.cst-katalog-year h1 {
+        text-align: center;
+    }
+
+    div.cst-footer {
+        margin-top: 30px; text-align: center;
+    }
+
+    #cst-footer-b {
+        color: #00aeef;font-weight: 700;
+    }
+
+    #cst-footer-p {
+        color: #8cc63f;font-weight: 700;
+    }
+
+    #cst-footer-s {
+        color: #f7941e;font-weight: 700;
+    }
+
+    #cst-footer-matcha-txt {
+        color: #78b34d; font-weight: 700;
+    }
+
+    #cst-footer-heart {
+        font-weight: 700;
+    }
+
+    i.pi-heart-fill {
+        color: #D32F2F !important;
+    }
+
+    .cst-container-sel-year {
+        margin-top: 35px
     }
 </style>

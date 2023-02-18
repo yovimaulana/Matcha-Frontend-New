@@ -29,20 +29,22 @@
         </Card>
 
         <!-- frame ala ala -->
-        <div class="p-grid p-jc-center">
-            <iframe v-show="isIframeShow && !isFreshLoad" @load="loadIframe()"
+        <div class="p-grid p-jc-center pattern-bg" style="margin-top: 15px;">
+            <!-- <iframe v-show="isIframeShow && !isFreshLoad" @load="loadIframe()"
                 src="https://embed.lottiefiles.com/animation/107059" style="max-height:100%; overflow: auto;"
-                class="p-mt-4" width="500" height="500" frameBorder="0"></iframe>
+                class="p-mt-4" width="500" height="500" frameBorder="0"></iframe> -->
+            <img v-show="isIframeShow && !isFreshLoad" @load="loadIframe()" src="../assets/wait.gif" class="hvr-bob mybob p-mt-1 " alt="" srcset="">            
             <Skeleton v-if="!isIframeShow && isFreshLoad" width="500px" height="500px"
                 style="margin-top: 37px; border-radius: 0.357rem; background-color: #8080802b;" />
         </div>
 
         <!-- Success Container -->
 
-        <div v-if="this.successMessage !== null" style="text-align: center;">
+        <div class="pattern-bg-2" v-if="this.successMessage !== null" style="text-align: center;">
             <br>
-            <img src="../assets/matcha.png" class="hvr-bob mybob p-mt-1 " style="width: 30%; height: 18%;" alt=""
-                srcset="">
+            <!-- <img src="../assets/matcha.png" class="hvr-bob mybob p-mt-1 " style="width: 30%; height: 18%;" alt=""
+                srcset=""> -->
+            <img src="../assets/done.gif" class="hvr-bob mybob p-mt-1 " alt="" srcset="">
             <br>
             <h1 style="color: dimgrey; font-variant: all-petite-caps; margin-bottom: 5px;">Selamat! Kamu sudah selesai Assessment!</h1>
             <h3 style="margin-top: 0; margin-bottom: 0;"> Ayo kerja lagi.</h3>
@@ -55,8 +57,9 @@
 
         <div v-if="this.errorMessages.length !== 0" style="text-align: center;">
             <br>
-            <img src="../assets/matcha404.png" class="hvr-bob mybob p-mt-1 " style="width: 30%; height: 18%;" alt=""
-                srcset="">
+            <!-- <img src="../assets/matcha404.png" class="hvr-bob mybob p-mt-1 " style="width: 30%; height: 18%;" alt=""
+                srcset=""> -->
+            <img src="../assets/watch.gif" class="hvr-bob mybob p-mt-1 " alt="" srcset="" />
             <br>
             <h1 style="color: dimgrey; font-variant: all-petite-caps; margin-bottom: 5px;">Aww...Jangan Nangis.</h1>
             <h3 style="margin-top: 0; margin-bottom: 0;">Ini cuma error kecil! Ayo kerja lagi.</h3>
@@ -139,15 +142,15 @@
             style="margin-top: 30px; border-radius: 0.357rem; background-color: #8080802b; margin-left: 10px;" />
         <DataTable style="box-shadow: 0 4px 24px 0 rgb(34 41 47 / 10%); margin-left: 8px; margin-right: 8px"
             v-if="dataAssessmentNonArray !== null" :value="dataAssessmentNonArray"
-            :class="myCardBgColorData+' '+myTextColorData" responsiveLayout="scroll" stripedRows :rowHover="true">
-            <Column field="title" :class="myCardBgColorData+' '+myTextColorData" header="Variabel"
+             responsiveLayout="scroll" stripedRows :rowHover="true">
+            <Column field="title" header="Variabel"
                 headerStyle="width:10%;">
                 <template #body="slotProps">
                     {{slotProps.data.title}}
                 </template>
             </Column>
 
-            <Column field="value" :class="myCardBgColorData+' '+myTextColorData" header="Data SBR"
+            <Column field="value" header="Data SBR"
                 headerStyle="width:3em;">
                 <template #body="slotProps">
                     <RadioButton
@@ -162,7 +165,7 @@
             </Column>
 
             <template v-for="i in dataAssessmentNonArray[0].value.assessment.length" :key="i">
-                <Column :field="'sumber'+(i)" :class="myCardBgColorData+' '+myTextColorData"
+                <Column :field="'sumber'+(i)" 
                     :header="'Data Assessment - '+(i) " headerStyle="width:3em;">
                     <template #body="slotProps">
                         <RadioButton
@@ -177,7 +180,7 @@
                 </Column>
             </template>
 
-            <Column :class="myCardBgColorData+' '+myTextColorData" header="Selected Value" headerStyle="width:3em;">
+            <Column  header="Selected Value" headerStyle="width:3em;">
                 <template #body="slotProps">
                     <div>
                         <p style="background-color: lightgrey; padding:5px">{{
@@ -222,7 +225,7 @@
                 <DataTable v-if="dataAssessmentAktivitas != null" :rowClass="rowClass" rowGroupMode="rowspan"
                     groupRowsBy="dataAssessmentAktivitas.status"
                     style="box-shadow: 0 4px 24px 0 rgb(34 41 47 / 10%); margin-left: 8px; margin-right: 8px; margin-top: 10px"
-                    :value="dataAssessmentAktivitas" :class="myCardBgColorData+' '+myTextColorData"
+                    :value="dataAssessmentAktivitas"
                     responsiveLayout="scroll">
                     <template #header>
                         <div class="p-grid">
@@ -245,15 +248,15 @@
                             <span>{{slotProps.data.status}}</span>
                         </template>
                     </Column> -->
-                    <Column field="sumber" :class="myCardBgColorData+' '+myTextColorData" header="Sumber Data">
+                    <Column field="sumber" header="Sumber Data">
                     </Column>
-                    <Column field="aktivitas" :class="myCardBgColorData+' '+myTextColorData" header="Aktivitas">
+                    <Column field="aktivitas" header="Aktivitas">
                     </Column>
-                    <Column field="jenis" :class="myCardBgColorData+' '+myTextColorData" header="Jenis"></Column>
-                    <Column field="kategori" :class="myCardBgColorData+' '+myTextColorData" header="Kategori">
+                    <Column field="jenis" header="Jenis"></Column>
+                    <Column field="kategori" header="Kategori">
                     </Column>
-                    <Column field="kbli" :class="myCardBgColorData+' '+myTextColorData" header="KBLI"></Column>
-                    <Column :class="myCardBgColorData+' '+myTextColorData" header="Action">
+                    <Column field="kbli" header="KBLI"></Column>
+                    <Column header="Action">
                         <template #body="slotProps">
                             <Button
                                 @click="dataAssessmentAktivitas[slotProps.index]['tpsumber'] = 'sbr'; dataAssessmentAktivitas[slotProps.index]['status'] = 'SAVED' "
@@ -312,11 +315,16 @@
                 <DataTable v-if="dataAssessmentProduk != null" :rowClass="rowClass" rowGroupMode="rowspan"
                     groupRowsBy="dataAssessmentProduk.status"
                     style="box-shadow: 0 4px 24px 0 rgb(34 41 47 / 10%); margin-left: 8px; margin-right: 8px; margin-top: 10px"
-                    :value="dataAssessmentProduk" :class="myCardBgColorData+' '+myTextColorData"
+                    :value="dataAssessmentProduk" 
                     responsiveLayout="scroll">
                     <template #header>
-                        <div class="table-header-tmp">
-                            PRODUK PERUSAHAAN
+                        <div class="p-grid">                            
+                            <div class="table-header-tmp p-col-9">
+                                PRODUK PERUSAHAAN
+                            </div>
+                            <div class="p-col-3" style="text-align: right">
+                                <Button @click="addNew('produk')" label="Add New" icon="pi pi-plus" />
+                            </div>
                         </div>
                     </template>
                     <Column header="#" headerStyle="width:3em">
@@ -329,12 +337,12 @@
                             <span>{{slotProps.data.status}}</span>
                         </template>
                     </Column> -->
-                    <Column field="sumber" :class="myCardBgColorData+' '+myTextColorData" header="Sumber Data">
+                    <Column field="sumber"  header="Sumber Data">
                     </Column>
-                    <Column field="produk" :class="myCardBgColorData+' '+myTextColorData" header="Produk">
+                    <Column field="produk"  header="Produk">
                     </Column>
-                    <Column field="kbki" :class="myCardBgColorData+' '+myTextColorData" header="KBKI"></Column>
-                    <Column :class="myCardBgColorData+' '+myTextColorData" header="Action">
+                    <Column field="kbki"  header="KBKI"></Column>
+                    <Column  header="Action">
                         <template #body="slotProps">
                             <Button
                                 @click="dataAssessmentProduk[slotProps.index]['tpsumber'] = 'sbr'; dataAssessmentProduk[slotProps.index]['status'] = 'SAVED' "
@@ -347,6 +355,11 @@
                             <Button @click="removeProdukFromSBR(slotProps.index)" style="margin-top: 5px"
                                 v-if="slotProps.data.tpsumber == 'sbr' && slotProps.data.orisumber == 'assessment'"
                                 icon="pi pi-undo" class="p-button-danger p-button-sm p-button-raised" label=""
+                                title="Batal Tambah SBR" />
+
+                            <Button @click="removeProdukFromSBR(slotProps.index)" style="margin-top: 5px"
+                                v-if="slotProps.data.tpsumber == 'sbr' && slotProps.data.orisumber == 'assessment-new'"
+                                icon="pi pi-trash" class="p-button-danger p-button-sm p-button-raised" label=""
                                 title="Batal Tambah SBR" />
                         </template>
                     </Column>
@@ -388,11 +401,16 @@
                 <DataTable v-if="dataAssessmentSaham != null" :rowClass="rowClass" rowGroupMode="rowspan"
                     groupRowsBy="dataAssessmentSaham.status"
                     style="box-shadow: 0 4px 24px 0 rgb(34 41 47 / 10%); margin-left: 8px; margin-right: 8px; margin-top: 10px"
-                    :value="dataAssessmentSaham" :class="myCardBgColorData+' '+myTextColorData"
+                    :value="dataAssessmentSaham"
                     responsiveLayout="scroll">
                     <template #header>
-                        <div class="table-header-tmp">
-                            SAHAM PERUSAHAAN
+                        <div class="p-grid">
+                            <div class="table-header-tmp p-col-9">
+                                SAHAM PERUSAHAAN
+                            </div>
+                            <div class="p-col-3" style="text-align: right">
+                                <Button @click="addNew('saham')" label="Add New" icon="pi pi-plus" />
+                            </div>
                         </div>
                     </template>
                     <Column header="#" headerStyle="width:3em">
@@ -405,14 +423,14 @@
                             <span>{{slotProps.data.status}}</span>
                         </template>
                     </Column> -->
-                    <Column field="sumber" :class="myCardBgColorData+' '+myTextColorData" header="Sumber Data">
+                    <Column field="sumber"  header="Sumber Data">
                     </Column>
-                    <Column field="pemegang_saham" :class="myCardBgColorData+' '+myTextColorData"
+                    <Column field="pemegang_saham" 
                         header="Pemegang Saham">
                     </Column>
-                    <Column field="persentase_saham" :class="myCardBgColorData+' '+myTextColorData"
+                    <Column field="persentase_saham" 
                         header="Persentase Saham"></Column>
-                    <Column :class="myCardBgColorData+' '+myTextColorData" header="Action">
+                    <Column  header="Action">
                         <template #body="slotProps">
                             <Button
                                 @click="dataAssessmentSaham[slotProps.index]['tpsumber'] = 'sbr'; dataAssessmentSaham[slotProps.index]['status'] = 'SAVED' "
@@ -425,6 +443,11 @@
                             <Button @click="removeSahamFromSBR(slotProps.index)" style="margin-top: 5px"
                                 v-if="slotProps.data.tpsumber == 'sbr' && slotProps.data.orisumber == 'assessment'"
                                 icon="pi pi-undo" class="p-button-danger p-button-sm p-button-raised" label=""
+                                title="Batal Tambah SBR" />
+
+                            <Button @click="removeSahamFromSBR(slotProps.index)" style="margin-top: 5px"
+                                v-if="slotProps.data.tpsumber == 'sbr' && slotProps.data.orisumber == 'assessment-new'"
+                                icon="pi pi-trash" class="p-button-danger p-button-sm p-button-raised" label=""
                                 title="Batal Tambah SBR" />
                         </template>
                     </Column>
@@ -466,11 +489,16 @@
                 <DataTable v-if="dataAssessmentEmail != null" :rowClass="rowClass" rowGroupMode="rowspan"
                     groupRowsBy="dataAssessmentEmail.status"
                     style="box-shadow: 0 4px 24px 0 rgb(34 41 47 / 10%); margin-left: 8px; margin-right: 8px; margin-top: 10px"
-                    :value="dataAssessmentEmail" :class="myCardBgColorData+' '+myTextColorData"
+                    :value="dataAssessmentEmail" 
                     responsiveLayout="scroll">
                     <template #header>
-                        <div class="table-header-tmp">
-                            EMAIL PERUSAHAAN
+                        <div class="p-grid">
+                            <div class="table-header-tmp p-col-9">
+                                EMAIL PERUSAHAAN
+                            </div>
+                            <div class="p-col-3" style="text-align: right">
+                                <Button @click="addNew('email')" label="Add New" icon="pi pi-plus" />
+                            </div>
                         </div>
                     </template>
                     <Column header="#" headerStyle="width:3em">
@@ -483,11 +511,11 @@
                             <span>{{slotProps.data.status}}</span>
                         </template>
                     </Column> -->
-                    <Column field="sumber" :class="myCardBgColorData+' '+myTextColorData" header="Sumber Data">
+                    <Column field="sumber" header="Sumber Data">
                     </Column>
-                    <Column field="email" :class="myCardBgColorData+' '+myTextColorData" header="Email">
+                    <Column field="email" header="Email">
                     </Column>
-                    <Column :class="myCardBgColorData+' '+myTextColorData" header="Action">
+                    <Column header="Action">
                         <template #body="slotProps">
                             <Button
                                 @click="dataAssessmentEmail[slotProps.index]['tpsumber'] = 'sbr'; dataAssessmentEmail[slotProps.index]['status'] = 'SAVED' "
@@ -500,6 +528,11 @@
                             <Button @click="removeEmailFromSBR(slotProps.index)" style="margin-top: 5px"
                                 v-if="slotProps.data.tpsumber == 'sbr' && slotProps.data.orisumber == 'assessment'"
                                 icon="pi pi-undo" class="p-button-danger p-button-sm p-button-raised" label=""
+                                title="Batal Tambah SBR" />
+                            
+                            <Button @click="removeEmailFromSBR(slotProps.index)" style="margin-top: 5px"
+                                v-if="slotProps.data.tpsumber == 'sbr' && slotProps.data.orisumber == 'assessment-new'"
+                                icon="pi pi-trash" class="p-button-danger p-button-sm p-button-raised" label=""
                                 title="Batal Tambah SBR" />
                         </template>
                     </Column>
@@ -541,10 +574,15 @@
                 <DataTable v-if="dataAssessmentFax != null" :rowClass="rowClass" rowGroupMode="rowspan"
                     groupRowsBy="dataAssessmentFax.status"
                     style="box-shadow: 0 4px 24px 0 rgb(34 41 47 / 10%); margin-left: 8px; margin-right: 8px; margin-top: 10px"
-                    :value="dataAssessmentFax" :class="myCardBgColorData+' '+myTextColorData" responsiveLayout="scroll">
+                    :value="dataAssessmentFax"  responsiveLayout="scroll">
                     <template #header>
-                        <div class="table-header-tmp">
-                            FAX PERUSAHAAN
+                        <div class="p-grid">
+                            <div class="table-header-tmp p-col-9">
+                                FAX PERUSAHAAN
+                            </div>
+                            <div class="p-col-3" style="text-align: right">
+                                <Button @click="addNew('fax')" label="Add New" icon="pi pi-plus" />
+                            </div>
                         </div>
                     </template>
                     <Column header="#" headerStyle="width:3em">
@@ -557,11 +595,11 @@
                             <span>{{slotProps.data.status}}</span>
                         </template>
                     </Column> -->
-                    <Column field="sumber" :class="myCardBgColorData+' '+myTextColorData" header="Sumber Data">
+                    <Column field="sumber"  header="Sumber Data">
                     </Column>
-                    <Column field="nomor_faksimili" :class="myCardBgColorData+' '+myTextColorData" header="Fax">
+                    <Column field="nomor_faksimili"  header="Fax">
                     </Column>
-                    <Column :class="myCardBgColorData+' '+myTextColorData" header="Action">
+                    <Column  header="Action">
                         <template #body="slotProps">
                             <Button
                                 @click="dataAssessmentFax[slotProps.index]['tpsumber'] = 'sbr'; dataAssessmentFax[slotProps.index]['status'] = 'SAVED' "
@@ -574,6 +612,11 @@
                             <Button @click="removeFaxFromSBR(slotProps.index)" style="margin-top: 5px"
                                 v-if="slotProps.data.tpsumber == 'sbr' && slotProps.data.orisumber == 'assessment'"
                                 icon="pi pi-undo" class="p-button-danger p-button-sm p-button-raised" label=""
+                                title="Batal Tambah SBR" />
+                            
+                            <Button @click="removeFaxFromSBR(slotProps.index)" style="margin-top: 5px"
+                                v-if="slotProps.data.tpsumber == 'sbr' && slotProps.data.orisumber == 'assessment-new'"
+                                icon="pi pi-trash" class="p-button-danger p-button-sm p-button-raised" label=""
                                 title="Batal Tambah SBR" />
                         </template>
                     </Column>
@@ -615,11 +658,16 @@
                 <DataTable v-if="dataAssessmentTelepon != null" :rowClass="rowClass" rowGroupMode="rowspan"
                     groupRowsBy="dataAssessmentTelepon.status"
                     style="box-shadow: 0 4px 24px 0 rgb(34 41 47 / 10%); margin-left: 8px; margin-right: 8px; margin-top: 10px"
-                    :value="dataAssessmentTelepon" :class="myCardBgColorData+' '+myTextColorData"
+                    :value="dataAssessmentTelepon" 
                     responsiveLayout="scroll">
                     <template #header>
-                        <div class="table-header-tmp">
-                            TELEPON PERUSAHAAN
+                        <div class="p-grid">
+                            <div class="table-header-tmp p-col-9">
+                                TELEPON PERUSAHAAN
+                            </div>
+                            <div class="p-col-3" style="text-align: right">
+                                <Button @click="addNew('telepon')" label="Add New" icon="pi pi-plus" />
+                            </div>
                         </div>
                     </template>
                     <Column header="#" headerStyle="width:3em">
@@ -627,13 +675,13 @@
                             {{slotProps.index + 1}}
                         </template>
                     </Column>                    
-                    <Column field="sumber" :class="myCardBgColorData+' '+myTextColorData" header="Sumber Data">
+                    <Column field="sumber"  header="Sumber Data">
                     </Column>
-                    <Column field="nomor_ekstensi" :class="myCardBgColorData+' '+myTextColorData" header="No Ekstensi">
+                    <Column field="nomor_ekstensi"  header="No Ekstensi">
                     </Column>
-                    <Column field="nomor_telepon" :class="myCardBgColorData+' '+myTextColorData" header="No Telepon">
+                    <Column field="nomor_telepon"  header="No Telepon">
                     </Column>
-                    <Column :class="myCardBgColorData+' '+myTextColorData" header="Action">
+                    <Column  header="Action">
                         <template #body="slotProps">
                             <Button
                                 @click="dataAssessmentTelepon[slotProps.index]['tpsumber'] = 'sbr'; dataAssessmentTelepon[slotProps.index]['status'] = 'SAVED' "
@@ -646,6 +694,11 @@
                             <Button @click="removeTeleponFromSBR(slotProps.index)" style="margin-top: 5px"
                                 v-if="slotProps.data.tpsumber == 'sbr' && slotProps.data.orisumber == 'assessment'"
                                 icon="pi pi-undo" class="p-button-danger p-button-sm p-button-raised" label=""
+                                title="Batal Tambah SBR" />
+                            
+                            <Button @click="removeTeleponFromSBR(slotProps.index)" style="margin-top: 5px"
+                                v-if="slotProps.data.tpsumber == 'sbr' && slotProps.data.orisumber == 'assessment-new'"
+                                icon="pi pi-trash" class="p-button-danger p-button-sm p-button-raised" label=""
                                 title="Batal Tambah SBR" />
                         </template>
                     </Column>
@@ -687,10 +740,15 @@
                 <DataTable v-if="dataAssessmentWeb != null" :rowClass="rowClass" rowGroupMode="rowspan"
                     groupRowsBy="dataAssessmentWeb.status"
                     style="box-shadow: 0 4px 24px 0 rgb(34 41 47 / 10%); margin-left: 8px; margin-right: 8px; margin-top: 10px"
-                    :value="dataAssessmentWeb" :class="myCardBgColorData+' '+myTextColorData" responsiveLayout="scroll">
+                    :value="dataAssessmentWeb"  responsiveLayout="scroll">
                     <template #header>
-                        <div class="table-header-tmp">
-                            WEBSITE PERUSAHAAN
+                        <div class="p-grid">
+                            <div class="table-header-tmp p-col-9">
+                                WEBSITE PERUSAHAAN
+                            </div>
+                            <div class="p-col-3" style="text-align: right">
+                                <Button @click="addNew('web')" label="Add New" icon="pi pi-plus" />
+                            </div>
                         </div>
                     </template>
                     <Column header="#" headerStyle="width:3em">
@@ -703,11 +761,11 @@
                             <span>{{slotProps.data.status}}</span>
                         </template>
                     </Column> -->
-                    <Column field="sumber" :class="myCardBgColorData+' '+myTextColorData" header="Sumber Data">
+                    <Column field="sumber"  header="Sumber Data">
                     </Column>
-                    <Column field="website" :class="myCardBgColorData+' '+myTextColorData" header="Website">
+                    <Column field="website"  header="Website">
                     </Column>
-                    <Column :class="myCardBgColorData+' '+myTextColorData" header="Action">
+                    <Column  header="Action">
                         <template #body="slotProps">
                             <Button
                                 @click="dataAssessmentWeb[slotProps.index]['tpsumber'] = 'sbr'; dataAssessmentWeb[slotProps.index]['status'] = 'SAVED' "
@@ -720,6 +778,10 @@
                             <Button @click="removeWebFromSBR(slotProps.index)" style="margin-top: 5px"
                                 v-if="slotProps.data.tpsumber == 'sbr' && slotProps.data.orisumber == 'assessment'"
                                 icon="pi pi-undo" class="p-button-danger p-button-sm p-button-raised" label=""
+                                title="Batal Tambah SBR" />
+                            <Button @click="removeWebFromSBR(slotProps.index)" style="margin-top: 5px"
+                                v-if="slotProps.data.tpsumber == 'sbr' && slotProps.data.orisumber == 'assessment-new'"
+                                icon="pi pi-trash" class="p-button-danger p-button-sm p-button-raised" label=""
                                 title="Batal Tambah SBR" />
                         </template>
                     </Column>
@@ -761,11 +823,16 @@
                 <DataTable v-if="dataAssessmentKontak != null" :rowClass="rowClass" rowGroupMode="rowspan"
                     groupRowsBy="dataAssessmentKontak.status"
                     style="box-shadow: 0 4px 24px 0 rgb(34 41 47 / 10%); margin-left: 8px; margin-right: 8px; margin-top: 10px"
-                    :value="dataAssessmentKontak" :class="myCardBgColorData+' '+myTextColorData"
+                    :value="dataAssessmentKontak" 
                     responsiveLayout="scroll">
                     <template #header>
-                        <div class="table-header-tmp">
-                            Contact Person PERUSAHAAN
+                        <div class="p-grid">
+                            <div class="table-header-tmp p-col-9">
+                                Contact Person PERUSAHAAN
+                            </div>
+                            <div class="p-col-3" style="text-align: right">
+                                <Button @click="addNew('kontak')" label="Add New" icon="pi pi-plus" />
+                            </div>
                         </div>
                     </template>
                     <Column header="#" headerStyle="width:3em">
@@ -778,15 +845,15 @@
                             <span>{{slotProps.data.status}}</span>
                         </template>
                     </Column> -->
-                    <Column field="sumber" :class="myCardBgColorData+' '+myTextColorData" header="Sumber Data">
+                    <Column field="sumber"  header="Sumber Data">
                     </Column>
-                    <Column field="nama" :class="myCardBgColorData+' '+myTextColorData" header="Nama CP">
+                    <Column field="nama"  header="Nama CP">
                     </Column>
-                    <Column field="email" :class="myCardBgColorData+' '+myTextColorData" header="Email CP">
+                    <Column field="email"  header="Email CP">
                     </Column>
-                    <Column field="nomor_telepon" :class="myCardBgColorData+' '+myTextColorData" header="No Telp CP">
+                    <Column field="nomor_telepon"  header="No Telp CP">
                     </Column>
-                    <Column :class="myCardBgColorData+' '+myTextColorData" header="Action">
+                    <Column  header="Action">
                         <template #body="slotProps">
                             <Button
                                 @click="dataAssessmentKontak[slotProps.index]['tpsumber'] = 'sbr'; dataAssessmentKontak[slotProps.index]['status'] = 'SAVED' "
@@ -799,6 +866,10 @@
                             <Button @click="removeKontakFromSBR(slotProps.index)" style="margin-top: 5px"
                                 v-if="slotProps.data.tpsumber == 'sbr' && slotProps.data.orisumber == 'assessment'"
                                 icon="pi pi-undo" class="p-button-danger p-button-sm p-button-raised" label=""
+                                title="Batal Tambah SBR" />
+                            <Button @click="removeKontakFromSBR(slotProps.index)" style="margin-top: 5px"
+                                v-if="slotProps.data.tpsumber == 'sbr' && slotProps.data.orisumber == 'assessment-new'"
+                                icon="pi pi-trash" class="p-button-danger p-button-sm p-button-raised" label=""
                                 title="Batal Tambah SBR" />
                         </template>
                     </Column>
@@ -1731,10 +1802,11 @@
         async created() {
             try {
                 // const listKegiatan = await DataService.getKegiatanActiveAssessment()
-                const listKegiatan = await DataService.getDaftarKegiatanAssessmentUser(this.currentUser.id, 'active')
+                const listKegiatan = await DataService.getDaftarKegiatanAssessmentUser(this.currentUser.id, 'active')                
                 this.kegiatanOptions = listKegiatan.data
             } catch (error) {
                 console.log(error)
+                this.toastMessage('error', 'Error!', 'Something went wrong!');
             }        
         },
         watch: {            
@@ -1774,6 +1846,116 @@
                             }
                         )
                         break
+                    case 'produk':
+                        this.openDialogProduk(
+                            {
+                                index: this.dataAssessmentProduk.length,
+                                data: {
+                                    id: null,
+                                    produk: null,
+                                    kbki: null,
+                                    tpsumber: 'sbr',
+                                    orisumber: 'assessment-new',
+                                    perusahaan_id: null,
+                                    sumber: 'Data Assessment - New Data'
+                                }
+                            }
+                        )
+                        break
+                    case 'saham':
+                        this.openDialogSaham(
+                            {
+                                index: this.dataAssessmentSaham.length,
+                                data: {
+                                    id: null,
+                                    pemegang_saham: null,
+                                    persentase_saham: null,
+                                    tpsumber: 'sbr',
+                                    orisumber: 'assessment-new',
+                                    perusahaan_id: null,
+                                    sumber: 'Data Assessment - New Data'
+                                }
+                            }
+                        )
+                        break
+                    case 'email':
+                        this.openDialogEmail(
+                            {
+                                index: this.dataAssessmentEmail.length,
+                                data: {
+                                    id: null,
+                                    email: null,
+                                    tpsumber: 'sbr',
+                                    orisumber: 'assessment-new',
+                                    perusahaan_id: null,
+                                    sumber: 'Data Assessment - New Data'   
+                                }
+                            }
+                        )
+                        break
+                    case 'fax':
+                        this.openDialogFax(
+                            {
+                                index: this.dataAssessmentFax.length,
+                                data: {
+                                    id: null,
+                                    nomor_faksimili: null,
+                                    tpsumber: 'sbr',
+                                    orisumber: 'assessment-new',
+                                    perusahaan_id: null,
+                                    sumber: 'Data Assessment - New Data'   
+                                }
+                            }
+                        )
+                        break
+                    case 'telepon':
+                        this.openDialogTelepon(
+                            {
+                                index: this.dataAssessmentTelepon.length,
+                                data: {
+                                    id: null,
+                                    nomor_ekstensi: null,
+                                    nomor_telepon: null,
+                                    tpsumber: 'sbr',
+                                    orisumber: 'assessment-new',
+                                    perusahaan_id: null,
+                                    sumber: 'Data Assessment - New Data' 
+                                }
+                            }
+                        )
+                        break
+                    case 'web':
+                        this.openDialogWeb(
+                            {
+                                index: this.dataAssessmentWeb.length,
+                                data: {
+                                    id: null,
+                                    website: null,
+                                    tpsumber: 'sbr',
+                                    orisumber: 'assessment-new',
+                                    perusahaan_id: null,
+                                    sumber: 'Data Assessment - New Data'
+                                }
+                            }
+                        )
+                        break
+                    case 'kontak':
+                        this.openDialogKontak(
+                            {
+                                index: this.dataAssessmentKontak.length,
+                                data: {
+                                    id: null,
+                                    email: null,
+                                    nama: null,
+                                    nomor_telepon: null,
+                                    tpsumber: 'sbr',
+                                    orisumber: 'assessment-new',
+                                    perusahaan_id: null,
+                                    sumber: 'Data Assessment - New Data'                                   
+                                }
+                            }
+                        )
+                        break
                     default:
                         break
                 }
@@ -1788,49 +1970,50 @@
                     tempIndex = parseInt(removedData[0]['key']),
                     reAss = this.dataKegiatan.data_assessment[tempIndex]
 
-
-                this.tempDataAssessmentAktivitas.push({
-                    'key': removedData[0]['key'].toString(),
-                    'data': {
-                        'name': reAss['sumber_data'] + '-' + (tempIndex + 1),
-                        'type': 'button',
-                        'value': null
-                    },
-                    'children': [{
-                            'key': tempIndex + '-0',
+                    if(removedData[0]['orisumber'] === 'assessment') {
+                        this.tempDataAssessmentAktivitas.push({
+                            'key': removedData[0]['key'].toString(),
                             'data': {
-                                'name': 'Aktivitas',
-                                'type': 'Text',
-                                'value': reAss['aktivitas_perusahaan']
-                            }
-                        },
-                        {
-                            'key': tempIndex + '-1',
-                            'data': {
-                                'name': 'Jenis',
-                                'type': 'Text',
-                                'value': '-'
+                                'name': reAss['sumber_data'] + '-' + (tempIndex + 1),
+                                'type': 'button',
+                                'value': null
                             },
-                            
-                        },
-                        {
-                            'key': tempIndex + '-2',
-                            'data': {
-                                'name': 'Kategori',
-                                'type': 'Text',
-                                'value': reAss['kategori_aktivitas_perusahaan']
-                            }
-                        },
-                        {
-                            'key': tempIndex + '-3',
-                            'data': {
-                                'name': 'KBLI',
-                                'type': 'Text',
-                                'value': reAss['kbli_aktivitas_perusahaan']
-                            }
-                        }
-                    ],
-                })
+                            'children': [{
+                                    'key': tempIndex + '-0',
+                                    'data': {
+                                        'name': 'Aktivitas',
+                                        'type': 'Text',
+                                        'value': reAss['aktivitas_perusahaan']
+                                    }
+                                },
+                                {
+                                    'key': tempIndex + '-1',
+                                    'data': {
+                                        'name': 'Jenis',
+                                        'type': 'Text',
+                                        'value': '-'
+                                    },
+                                    
+                                },
+                                {
+                                    'key': tempIndex + '-2',
+                                    'data': {
+                                        'name': 'Kategori',
+                                        'type': 'Text',
+                                        'value': reAss['kategori_aktivitas_perusahaan']
+                                    }
+                                },
+                                {
+                                    'key': tempIndex + '-3',
+                                    'data': {
+                                        'name': 'KBLI',
+                                        'type': 'Text',
+                                        'value': reAss['kbli_aktivitas_perusahaan']
+                                    }
+                                }
+                            ],
+                        })
+                    }
                 // console.log(removedData, reAss)
             },
             removeProdukFromSBR(index) {
@@ -1838,196 +2021,213 @@
                     tempIndex = parseInt(removedData[0]['key']),
                     reAss = this.dataKegiatan.data_assessment[tempIndex]
 
+                
+                if(removedData[0]['orisumber'] == 'assessment') {
+                    this.tempDataAssessmentProduk.push({
+                        'key': removedData[0]['key'].toString(),
+                        'data': {
+                            'name': reAss['sumber_data'] + '-' + (tempIndex + 1),
+                            'type': 'button',
+                            'value': null
+                        },
+                        'children': [{
+                                'key': tempIndex + '-0',
+                                'data': {
+                                    'name': 'Produk',
+                                    'type': 'text',
+                                    'value': reAss['produk_perusahaan']
+                                }
+                            },
+                            {
+                                'key': tempIndex + '-1',
+                                'data': {
+                                    'name': 'KBKI',
+                                    'type': 'text',
+                                    'value': reAss['kbki_produk_perusahaan']
+                                }
+                            },
+                        ],
+                    })
+                }
 
-                this.tempDataAssessmentProduk.push({
-                    'key': removedData[0]['key'].toString(),
-                    'data': {
-                        'name': reAss['sumber_data'] + '-' + (tempIndex + 1),
-                        'type': 'button',
-                        'value': null
-                    },
-                    'children': [{
-                            'key': tempIndex + '-0',
-                            'data': {
-                                'name': 'Produk',
-                                'type': 'text',
-                                'value': reAss['produk_perusahaan']
-                            }
-                        },
-                        {
-                            'key': tempIndex + '-1',
-                            'data': {
-                                'name': 'KBKI',
-                                'type': 'text',
-                                'value': reAss['kbki_produk_perusahaan']
-                            }
-                        },
-                    ],
-                })
+
+                
             },
             removeSahamFromSBR(index) {
                 let removedData = this.dataAssessmentSaham.splice(index, 1),
                     tempIndex = parseInt(removedData[0]['key']),
                     reAss = this.dataKegiatan.data_assessment[tempIndex]
 
-
-                this.tempDataAssessmentSaham.push({
-                    'key': removedData[0]['key'].toString(),
-                    'data': {
-                        'name': reAss['sumber_data'] + '-' + (tempIndex + 1),
-                        'type': 'button',
-                        'value': null
-                    },
-                    'children': [{
-                            'key': tempIndex + '-0',
-                            'data': {
-                                'name': 'Pemegang Saham',
-                                'type': 'text',
-                                'value': reAss['pemegang_saham']
-                            }
+                if(removedData[0]['orisumber'] === 'assessment') {
+                    this.tempDataAssessmentSaham.push({
+                        'key': removedData[0]['key'].toString(),
+                        'data': {
+                            'name': reAss['sumber_data'] + '-' + (tempIndex + 1),
+                            'type': 'button',
+                            'value': null
                         },
-                        {
-                            'key': tempIndex + '-1',
-                            'data': {
-                                'name': 'Persentase Saham',
-                                'type': 'text',
-                                'value': reAss['persentase_saham']
-                            }
-                        },
-                    ],
-                })
+                        'children': [{
+                                'key': tempIndex + '-0',
+                                'data': {
+                                    'name': 'Pemegang Saham',
+                                    'type': 'text',
+                                    'value': reAss['pemegang_saham']
+                                }
+                            },
+                            {
+                                'key': tempIndex + '-1',
+                                'data': {
+                                    'name': 'Persentase Saham',
+                                    'type': 'text',
+                                    'value': reAss['persentase_saham']
+                                }
+                            },
+                        ],
+                    })
+                }
+                
             },
             removeEmailFromSBR(index) {
                 let removedData = this.dataAssessmentEmail.splice(index, 1),
                     tempIndex = parseInt(removedData[0]['key']),
                     reAss = this.dataKegiatan.data_assessment[tempIndex]
 
-
-                this.tempDataAssessmentEmail.push({
-                    'key': removedData[0]['key'].toString(),
-                    'data': {
-                        'name': reAss['sumber_data'] + '-' + (tempIndex + 1),
-                        'type': 'button',
-                        'value': null
-                    },
-                    'children': [{
-                        'key': tempIndex + '-0',
+                if(removedData[0]['orisumber'] == 'assessment') {
+                    this.tempDataAssessmentEmail.push({
+                        'key': removedData[0]['key'].toString(),
                         'data': {
-                            'name': 'Email',
-                            'type': 'text',
-                            'value': reAss['alamat_email_perusahaan']
-                        }
-                    }, ],
-                })
+                            'name': reAss['sumber_data'] + '-' + (tempIndex + 1),
+                            'type': 'button',
+                            'value': null
+                        },
+                        'children': [{
+                            'key': tempIndex + '-0',
+                            'data': {
+                                'name': 'Email',
+                                'type': 'text',
+                                'value': reAss['alamat_email_perusahaan']
+                            }
+                        }, ],
+                    })
+                }
+                
             },
             removeFaxFromSBR(index) {
                 let removedData = this.dataAssessmentFax.splice(index, 1),
                     tempIndex = parseInt(removedData[0]['key']),
                     reAss = this.dataKegiatan.data_assessment[tempIndex]
 
-
-                this.tempDataAssessmentFax.push({
-                    'key': removedData[0]['key'].toString(),
-                    'data': {
-                        'name': reAss['sumber_data'] + '-' + (tempIndex + 1),
-                        'type': 'button',
-                        'value': null
-                    },
-                    'children': [{
-                        'key': tempIndex + '-0',
+                if(removedData[0]['orisumber'] === 'assessment') {
+                    this.tempDataAssessmentFax.push({
+                        'key': removedData[0]['key'].toString(),
                         'data': {
-                            'name': 'Fax',
-                            'type': 'text',
-                            'value': reAss['alamat_fax_perusahaan']
-                        }
-                    }, ],
-                })
+                            'name': reAss['sumber_data'] + '-' + (tempIndex + 1),
+                            'type': 'button',
+                            'value': null
+                        },
+                        'children': [{
+                            'key': tempIndex + '-0',
+                            'data': {
+                                'name': 'Fax',
+                                'type': 'text',
+                                'value': reAss['alamat_fax_perusahaan']
+                            }
+                        }, ],
+                    })
+                }
+                
             },
             removeTeleponFromSBR(index) {
                 let removedData = this.dataAssessmentTelepon.splice(index, 1),
                     tempIndex = parseInt(removedData[0]['key']),
                     reAss = this.dataKegiatan.data_assessment[tempIndex]
 
-
-                this.tempDataAssessmentTelepon.push({
-                    'key': removedData[0]['key'].toString(),
-                    'data': {
-                        'name': reAss['sumber_data'] + '-' + (tempIndex + 1),
-                        'type': 'button',
-                        'value': null
-                    },
-                    'children': [{
-                        'key': tempIndex + '-0',
+                if(removedData[0]['orisumber'] === 'assessment') {
+                    this.tempDataAssessmentTelepon.push({
+                        'key': removedData[0]['key'].toString(),
                         'data': {
-                            'name': 'Telepon',
-                            'type': 'text',
-                            'value': reAss['alamat_telepon_perusahaan']
-                        }
-                    }, ],
-                })
+                            'name': reAss['sumber_data'] + '-' + (tempIndex + 1),
+                            'type': 'button',
+                            'value': null
+                        },
+                        'children': [{
+                            'key': tempIndex + '-0',
+                            'data': {
+                                'name': 'Telepon',
+                                'type': 'text',
+                                'value': reAss['alamat_telepon_perusahaan']
+                            }
+                        }, ],
+                    })
+                }
+                
             },
             removeWebFromSBR(index) {
                 let removedData = this.dataAssessmentWeb.splice(index, 1),
                     tempIndex = parseInt(removedData[0]['key']),
                     reAss = this.dataKegiatan.data_assessment[tempIndex]
 
-
-                this.tempDataAssessmentWeb.push({
-                    'key': removedData[0]['key'].toString(),
-                    'data': {
-                        'name': reAss['sumber_data'] + '-' + (tempIndex + 1),
-                        'type': 'button',
-                        'value': null
-                    },
-                    'children': [{
-                        'key': tempIndex + '-0',
+                if(removedData[0]['orisumber'] === 'assessment') {
+                    this.tempDataAssessmentWeb.push({
+                        'key': removedData[0]['key'].toString(),
                         'data': {
-                            'name': 'Website',
-                            'type': 'text',
-                            'value': reAss['alamat_web_perusahaan']
-                        }
-                    }, ],
-                })
+                            'name': reAss['sumber_data'] + '-' + (tempIndex + 1),
+                            'type': 'button',
+                            'value': null
+                        },
+                        'children': [{
+                            'key': tempIndex + '-0',
+                            'data': {
+                                'name': 'Website',
+                                'type': 'text',
+                                'value': reAss['alamat_web_perusahaan']
+                            }
+                        }, ],
+                    })
+                }
+                
             },
             removeKontakFromSBR(index) {
                 let removedData = this.dataAssessmentKontak.splice(index, 1),
                     tempIndex = parseInt(removedData[0]['key']),
                     reAss = this.dataKegiatan.data_assessment[tempIndex]
 
-
-                this.tempDataAssessmentKontak.push({
-                    'key': removedData[0]['key'].toString(),
-                    'data': {
-                        'name': reAss['sumber_data'] + '-' + (tempIndex + 1),
-                        'type': 'button',
-                        'value': null
-                    },
-                    'children': [{
-                            'key': tempIndex + '-0',
-                            'data': {
-                                'name': 'Nama CP',
-                                'type': 'text',
-                                'value': reAss['kontak_perusahaan_nama']
-                            }
+                if(removedData[0]['orisumber'] === 'assessment') {
+                    this.tempDataAssessmentKontak.push({
+                        'key': removedData[0]['key'].toString(),
+                        'data': {
+                            'name': reAss['sumber_data'] + '-' + (tempIndex + 1),
+                            'type': 'button',
+                            'value': null
                         },
-                        {
-                            'key': tempIndex + '-1',
-                            'data': {
-                                'name': 'Email CP',
-                                'type': 'text',
-                                'value': reAss['kontak_perusahaan_email']
-                            }
-                        },
-                        {
-                            'key': tempIndex + '-2',
-                            'data': {
-                                'name': 'No Telp CP',
-                                'type': 'text',
-                                'value': reAss['kontak_perusahaan_nomor_telepon']
-                            }
-                        },
-                    ],
-                })
+                        'children': [{
+                                'key': tempIndex + '-0',
+                                'data': {
+                                    'name': 'Nama CP',
+                                    'type': 'text',
+                                    'value': reAss['kontak_perusahaan_nama']
+                                }
+                            },
+                            {
+                                'key': tempIndex + '-1',
+                                'data': {
+                                    'name': 'Email CP',
+                                    'type': 'text',
+                                    'value': reAss['kontak_perusahaan_email']
+                                }
+                            },
+                            {
+                                'key': tempIndex + '-2',
+                                'data': {
+                                    'name': 'No Telp CP',
+                                    'type': 'text',
+                                    'value': reAss['kontak_perusahaan_nomor_telepon']
+                                }
+                            },
+                        ],
+                    })
+                }
+                
             },
             addAktivitasToSBR(data) {
 
@@ -2240,7 +2440,18 @@
                 // console.log(this.selectedDataNonArrayHidden)
             },
             skip() {
-                this.getData()
+                this.$confirm.require({
+                    message: 'Skip assessment ? (data yang sudah diedit tidak akan disimpan)',
+                    header: 'Confirmation',
+                    icon: 'pi pi-exclamation-triangle',
+                    accept: () => {
+                        this.getData()
+                    },
+                    reject: () => {
+                        // this.$toast.add({severity:'error', summary:'Rejected', detail:'You have rejected', life: 3000});
+                    }
+                });
+                
             },
             convertDate(data) {
                 if (data == null) return;
@@ -2252,7 +2463,6 @@
             },
             submit() {
 
-                console.log(this.dataAssessmentAktivitas)
 
                 this.dataToSend = {
                     ...this.selectedDataNonArrayHidden
@@ -2270,6 +2480,9 @@
                 this.dataToSend['alamat_telepon_perusahaan'] = this.dataAssessmentTelepon
                 this.dataToSend['alamat_web_perusahaan'] = this.dataAssessmentWeb
                 this.dataToSend['kontak_perusahaan'] = this.dataAssessmentKontak
+
+                console.log(this.dataToSend)
+                // console.log(this.dataAssessmentNonArray)
 
                 this.$confirm.require({
                     message: 'Are you sure you want to proceed?',
@@ -2327,6 +2540,14 @@
             },
             saveEditedProduk() {
                 this.displayDialogProduk = false
+                if(this.dataAssessmentProduk[this.dataEditedProduk['index']] == undefined) {
+                    this.dataAssessmentProduk[this.dataEditedProduk['index']] = {}
+                    this.dataAssessmentProduk[this.dataEditedProduk['index']]['tpsumber'] = this.dataEditedProduk['tpsumber']
+                    this.dataAssessmentProduk[this.dataEditedProduk['index']]['orisumber'] = this.dataEditedProduk['orisumber']
+                    this.dataAssessmentProduk[this.dataEditedProduk['index']]['sumber'] = this.dataEditedProduk['sumber']
+                    this.dataAssessmentProduk[this.dataEditedProduk['index']]['id'] = null
+                    this.dataAssessmentProduk[this.dataEditedProduk['index']]['perusahaan_id'] = this.prid
+                }
                 this.dataAssessmentProduk[this.dataEditedProduk['index']]['produk'] = this.dataEditedProduk[
                     'produk'] ? this.dataEditedProduk[
                     'produk'] : null
@@ -2336,6 +2557,14 @@
             },
             saveEditedSaham() {
                 this.displayDialogSaham = false
+                if(this.dataAssessmentSaham[this.dataEditedSaham['index']] == undefined) {
+                    this.dataAssessmentSaham[this.dataEditedSaham['index']] = {}
+                    this.dataAssessmentSaham[this.dataEditedSaham['index']]['tpsumber'] = this.dataEditedSaham['tpsumber']
+                    this.dataAssessmentSaham[this.dataEditedSaham['index']]['orisumber'] = this.dataEditedSaham['orisumber']
+                    this.dataAssessmentSaham[this.dataEditedSaham['index']]['sumber'] = this.dataEditedSaham['sumber']
+                    this.dataAssessmentSaham[this.dataEditedSaham['index']]['id'] = null
+                    this.dataAssessmentSaham[this.dataEditedSaham['index']]['perusahaan_id'] = this.prid
+                }
                 this.dataAssessmentSaham[this.dataEditedSaham['index']]['pemegang_saham'] = this.dataEditedSaham[
                     'pemegang_saham'] ? this.dataEditedSaham[
                     'pemegang_saham'] : null
@@ -2345,18 +2574,42 @@
             },
             saveEditedEmail() {
                 this.displayDialogEmail = false
+                if(this.dataAssessmentEmail[this.dataEditedEmail['index']] == undefined) {
+                    this.dataAssessmentEmail[this.dataEditedEmail['index']] = {}
+                    this.dataAssessmentEmail[this.dataEditedEmail['index']]['tpsumber'] = this.dataEditedEmail['tpsumber']
+                    this.dataAssessmentEmail[this.dataEditedEmail['index']]['orisumber'] = this.dataEditedEmail['orisumber']
+                    this.dataAssessmentEmail[this.dataEditedEmail['index']]['sumber'] = this.dataEditedEmail['sumber']
+                    this.dataAssessmentEmail[this.dataEditedEmail['index']]['id'] = null
+                    this.dataAssessmentEmail[this.dataEditedEmail['index']]['perusahaan_id'] = this.prid
+                }
                 this.dataAssessmentEmail[this.dataEditedEmail['index']]['email'] = this.dataEditedEmail[
                     'email'] ? this.dataEditedEmail[
                     'email'] : null
             },
             saveEditedFax() {
                 this.displayDialogFax = false
+                if(this.dataAssessmentFax[this.dataEditedFax['index']] == undefined) {
+                    this.dataAssessmentFax[this.dataEditedFax['index']] = {}
+                    this.dataAssessmentFax[this.dataEditedFax['index']]['tpsumber'] = this.dataEditedFax['tpsumber']
+                    this.dataAssessmentFax[this.dataEditedFax['index']]['orisumber'] = this.dataEditedFax['orisumber']
+                    this.dataAssessmentFax[this.dataEditedFax['index']]['sumber'] = this.dataEditedFax['sumber']
+                    this.dataAssessmentFax[this.dataEditedFax['index']]['id'] = null
+                    this.dataAssessmentFax[this.dataEditedFax['index']]['perusahaan_id'] = this.prid
+                }
                 this.dataAssessmentFax[this.dataEditedFax['index']]['nomor_faksimili'] = this.dataEditedFax[
                     'nomor_faksimili'] ? this.dataEditedFax[
                     'nomor_faksimili'] : null
             },
             saveEditedTelepon() {
                 this.displayDialogTelepon = false
+                if(this.dataAssessmentTelepon[this.dataEditedTelepon['index']] == undefined) {
+                    this.dataAssessmentTelepon[this.dataEditedTelepon['index']] = {}
+                    this.dataAssessmentTelepon[this.dataEditedTelepon['index']]['tpsumber'] = this.dataEditedTelepon['tpsumber']
+                    this.dataAssessmentTelepon[this.dataEditedTelepon['index']]['orisumber'] = this.dataEditedTelepon['orisumber']
+                    this.dataAssessmentTelepon[this.dataEditedTelepon['index']]['sumber'] = this.dataEditedTelepon['sumber']
+                    this.dataAssessmentTelepon[this.dataEditedTelepon['index']]['id'] = null
+                    this.dataAssessmentTelepon[this.dataEditedTelepon['index']]['perusahaan_id'] = this.prid
+                }
                 this.dataAssessmentTelepon[this.dataEditedTelepon['index']]['nomor_ekstensi'] = this.dataEditedTelepon[
                     'nomor_ekstensi'] ? this.dataEditedTelepon[
                     'nomor_ekstensi'] : null
@@ -2366,12 +2619,28 @@
             },
             saveEditedWeb() {
                 this.displayDialogWeb = false
+                if(this.dataAssessmentWeb[this.dataEditedWeb['index']] == undefined) {
+                    this.dataAssessmentWeb[this.dataEditedWeb['index']] = {}
+                    this.dataAssessmentWeb[this.dataEditedWeb['index']]['tpsumber'] = this.dataEditedWeb['tpsumber']
+                    this.dataAssessmentWeb[this.dataEditedWeb['index']]['orisumber'] = this.dataEditedWeb['orisumber']
+                    this.dataAssessmentWeb[this.dataEditedWeb['index']]['sumber'] = this.dataEditedWeb['sumber']
+                    this.dataAssessmentWeb[this.dataEditedWeb['index']]['id'] = null
+                    this.dataAssessmentWeb[this.dataEditedWeb['index']]['perusahaan_id'] = this.prid
+                }
                 this.dataAssessmentWeb[this.dataEditedWeb['index']]['website'] = this.dataEditedWeb[
                     'website'] ? this.dataEditedWeb[
                     'website'] : null
             },
             saveEditedKontak() {
                 this.displayDialogKontak = false
+                if(this.dataAssessmentKontak[this.dataEditedKontak['index']] == undefined) {
+                    this.dataAssessmentKontak[this.dataEditedKontak['index']] = {}
+                    this.dataAssessmentKontak[this.dataEditedKontak['index']]['tpsumber'] = this.dataEditedKontak['tpsumber']
+                    this.dataAssessmentKontak[this.dataEditedKontak['index']]['orisumber'] = this.dataEditedKontak['orisumber']
+                    this.dataAssessmentKontak[this.dataEditedKontak['index']]['sumber'] = this.dataEditedKontak['sumber']
+                    this.dataAssessmentKontak[this.dataEditedKontak['index']]['id'] = null
+                    this.dataAssessmentKontak[this.dataEditedKontak['index']]['perusahaan_id'] = this.prid
+                }
                 this.dataAssessmentKontak[this.dataEditedKontak['index']]['nama'] = this.dataEditedKontak[
                     'nama'] ? this.dataEditedKontak[
                     'nama'] : null
@@ -2392,40 +2661,59 @@
                 this.dataEditedAktivitas['tpsumber'] = data.data.tpsumber
                 this.dataEditedAktivitas['orisumber'] = data.data.orisumber
                 this.dataEditedAktivitas['sumber'] = data.data.sumber
-                console.log(this.dataEditedAktivitas)
+                // console.log(this.dataEditedAktivitas)
             },
             openDialogProduk(data) {
                 this.displayDialogProduk = true
                 this.dataEditedProduk['index'] = data.index
                 this.dataEditedProduk['produk'] = data.data.produk
                 this.dataEditedProduk['kbki'] = data.data.kbki
+                this.dataEditedProduk['tpsumber'] = data.data.tpsumber
+                this.dataEditedProduk['orisumber'] = data.data.orisumber
+                this.dataEditedProduk['sumber'] = data.data.sumber
+                // console.log(this.dataEditedProduk)
             },
             openDialogSaham(data) {
                 this.displayDialogSaham = true
                 this.dataEditedSaham['index'] = data.index
                 this.dataEditedSaham['pemegang_saham'] = data.data.pemegang_saham
                 this.dataEditedSaham['persentase_saham'] = data.data.persentase_saham
+                this.dataEditedSaham['tpsumber'] = data.data.tpsumber
+                this.dataEditedSaham['orisumber'] = data.data.orisumber
+                this.dataEditedSaham['sumber'] = data.data.sumber
             },
             openDialogEmail(data) {
                 this.displayDialogEmail = true
                 this.dataEditedEmail['index'] = data.index
                 this.dataEditedEmail['email'] = data.data.email
+                this.dataEditedEmail['tpsumber'] = data.data.tpsumber
+                this.dataEditedEmail['orisumber'] = data.data.orisumber
+                this.dataEditedEmail['sumber'] = data.data.sumber
             },
             openDialogFax(data) {
                 this.displayDialogFax = true
                 this.dataEditedFax['index'] = data.index
                 this.dataEditedFax['nomor_faksimili'] = data.data.nomor_faksimili
+                this.dataEditedFax['tpsumber'] = data.data.tpsumber
+                this.dataEditedFax['orisumber'] = data.data.orisumber
+                this.dataEditedFax['sumber'] = data.data.sumber
             },
             openDialogTelepon(data) {
                 this.displayDialogTelepon = true
                 this.dataEditedTelepon['index'] = data.index
                 this.dataEditedTelepon['nomor_ekstensi'] = data.data.nomor_ekstensi
                 this.dataEditedTelepon['nomor_telepon'] = data.data.nomor_telepon
+                this.dataEditedTelepon['tpsumber'] = data.data.tpsumber
+                this.dataEditedTelepon['orisumber'] = data.data.orisumber
+                this.dataEditedTelepon['sumber'] = data.data.sumber
             },
             openDialogWeb(data) {
                 this.displayDialogWeb = true
                 this.dataEditedWeb['index'] = data.index
                 this.dataEditedWeb['website'] = data.data.website
+                this.dataEditedWeb['tpsumber'] = data.data.tpsumber
+                this.dataEditedWeb['orisumber'] = data.data.orisumber
+                this.dataEditedWeb['sumber'] = data.data.sumber
             },
             openDialogKontak(data) {
                 this.displayDialogKontak = true
@@ -2433,6 +2721,9 @@
                 this.dataEditedKontak['email'] = data.data.email
                 this.dataEditedKontak['nama'] = data.data.nama
                 this.dataEditedKontak['nomor_telepon'] = data.data.nomor_telepon
+                this.dataEditedKontak['tpsumber'] = data.data.tpsumber
+                this.dataEditedKontak['orisumber'] = data.data.orisumber
+                this.dataEditedKontak['sumber'] = data.data.sumber
             },
             rowClass(data) {
                 return data.tpsumber === 'assessment' ? 'row-assessment' : null;
@@ -2632,6 +2923,7 @@
                         'kbki': produkSBR[i]['kbki'],
                         'perusahaan_id': produkSBR[i]['perusahaan_id']
                     })
+                    this.prid = produkSBR[i]['perusahaan_id']
                 }
                 this.dataAssessmentProduk = tempDataProduk
 
@@ -2684,6 +2976,7 @@
                         'persentase_saham': sahamSBR[i]['persentase_saham'],
                         'perusahaan_id': sahamSBR[i]['perusahaan_id']
                     })
+                    this.prid = sahamSBR[i]['perusahaan_id']
                 }
                 this.dataAssessmentSaham = tempDataSaham
 
@@ -2737,6 +3030,7 @@
                         'email': emailSBR[i]['email'],
                         'perusahaan_id': emailSBR[i]['perusahaan_id']
                     })
+                    this.prid = emailSBR[i]['perusahaan_id']
                 }
                 this.dataAssessmentEmail = tempDataEmail
 
@@ -2779,6 +3073,7 @@
                         'nomor_faksimili': faxSBR[i]['nomor_faksimili'],
                         'perusahaan_id': faxSBR[i]['perusahaan_id']
                     })
+                    this.prid = faxSBR[i]['perusahaan_id']
                 }
                 this.dataAssessmentFax = tempDataFax
 
@@ -2956,6 +3251,7 @@
                 this.tempDataAssessmentKontak = tempAssessmentArr
             },
             async getData() {
+                
                 if(this.selectedKegiatan == null) {
                     this.setDefaultCon()
                     this.isIframeShow = true
@@ -2963,13 +3259,11 @@
                     return
                 }
                 this.onLoadData = true
-                // set default condition 
                 this.setDefaultCon()
                 await DataService.getDataAssessment(this.selectedKegiatan.id_kegiatan, this.currentId)
                     .then(response => {
                         // loading hide
                         this.onLoadData = false
-
                         if (response.data.meta.status == 'success') {
 
                             // kalo assessment sudah selesai, stop proses.
@@ -2977,6 +3271,8 @@
 
                             // set data kegiatan all
                             this.dataKegiatan = response.data.data
+
+                            console.log(this.dataKegiatan)
 
                             // assigning id_perusahaan ke data assessment
                             this.dataKegiatan.data_assessment.forEach(obj => {
@@ -3160,6 +3456,21 @@
     }
 </script>
 <style scoped>
+    .pattern-bg {         
+        background-position: center;
+        background-size: 500px;
+        background-repeat: no-repeat;
+        background-image: url("data:image/svg+xml;utf8, %3Csvg width=%22100%25%22 height=%22100%25%22 viewBox=%220 0 1000 1000%22 xmlns=%22http:%2F%2Fwww.w3.org%2F2000%2Fsvg%22 %3E %3Cdefs%3E %3Cfilter id=%22grain%22 x=%22-50vw%22 y=%22-50vh%22 width=%22100vw%22 height=%22100vh%22%3E %3CfeFlood flood-color=%22%23ffffff%22 result=%22neutral-gray%22 %2F%3E %3CfeTurbulence in=%22neutral-gray%22 type=%22fractalNoise%22 baseFrequency=%222.5%22 numOctaves=%22100%22 stitchTiles=%22stitch%22 result=%22noise%22 %2F%3E %3CfeColorMatrix in=%22noise%22 type=%22saturate%22 values=%220%22 result=%22destaturatedNoise%22 %3E%3C%2FfeColorMatrix%3E %3CfeComponentTransfer in=%22desaturatedNoise%22 result=%22theNoise%22%3E %3CfeFuncA type=%22table%22 tableValues=%220 0 0.05 0%22%3E%3C%2FfeFuncA%3E %3C%2FfeComponentTransfer%3E %3CfeBlend in=%22SourceGraphic%22 in2=%22theNoise%22 mode=%22soft-light%22 result=%22noisy-image%22 %2F%3E %3C%2Ffilter%3E %3CclipPath id=%22shape%22%3E %3Cpath fill=%22currentColor%22 d=%22M891%2C606.5Q793%2C713%2C714%2C813.5Q635%2C914%2C530.5%2C820.5Q426%2C727%2C285%2C742.5Q144%2C758%2C87%2C629Q30%2C500%2C179%2C437.5Q328%2C375%2C376.5%2C321.5Q425%2C268%2C518%2C213Q611%2C158%2C638.5%2C268.5Q666%2C379%2C827.5%2C439.5Q989%2C500%2C891%2C606.5Z%22%3E%3C%2Fpath%3E %3C%2FclipPath%3E %3C%2Fdefs%3E %3Cg filter=%22url(%23grain)%22 clip-path=%22url(%23shape)%22%3E %3Cpath fill=%22%23f0f0f0%22 d=%22M891%2C606.5Q793%2C713%2C714%2C813.5Q635%2C914%2C530.5%2C820.5Q426%2C727%2C285%2C742.5Q144%2C758%2C87%2C629Q30%2C500%2C179%2C437.5Q328%2C375%2C376.5%2C321.5Q425%2C268%2C518%2C213Q611%2C158%2C638.5%2C268.5Q666%2C379%2C827.5%2C439.5Q989%2C500%2C891%2C606.5Z%22 %2F%3E %3C%2Fg%3E %3C%2Fsvg%3E");
+
+    }
+
+    .pattern-bg-2 {
+        background-position: top;
+        background-size: 500px;
+        background-repeat: no-repeat;
+        /* background-image: url("data:image/svg+xml;utf8, %3Csvg width=%22100%25%22 height=%22100%25%22 viewBox=%220 0 1000 1000%22 xmlns=%22http:%2F%2Fwww.w3.org%2F2000%2Fsvg%22 %3E %3Cdefs%3E %3Cfilter id=%22grain%22 x=%22-50vw%22 y=%22-50vh%22 width=%22100vw%22 height=%22100vh%22%3E %3CfeFlood flood-color=%22%23ffffff%22 result=%22neutral-gray%22 %2F%3E %3CfeTurbulence in=%22neutral-gray%22 type=%22fractalNoise%22 baseFrequency=%222.5%22 numOctaves=%22100%22 stitchTiles=%22stitch%22 result=%22noise%22 %2F%3E %3CfeColorMatrix in=%22noise%22 type=%22saturate%22 values=%220%22 result=%22destaturatedNoise%22 %3E%3C%2FfeColorMatrix%3E %3CfeComponentTransfer in=%22desaturatedNoise%22 result=%22theNoise%22%3E %3CfeFuncA type=%22table%22 tableValues=%220 0 0.05 0%22%3E%3C%2FfeFuncA%3E %3C%2FfeComponentTransfer%3E %3CfeBlend in=%22SourceGraphic%22 in2=%22theNoise%22 mode=%22soft-light%22 result=%22noisy-image%22 %2F%3E %3C%2Ffilter%3E %3CclipPath id=%22shape%22%3E %3Cpath fill=%22currentColor%22 d=%22M777.5%2C609Q801%2C718%2C693%2C739.5Q585%2C761%2C476.5%2C833.5Q368%2C906%2C256.5%2C832Q145%2C758%2C150%2C629Q155%2C500%2C226%2C426Q297%2C352%2C325%2C199.5Q353%2C47%2C489%2C81Q625%2C115%2C763%2C162Q901%2C209%2C827.5%2C354.5Q754%2C500%2C777.5%2C609Z%22%3E%3C%2Fpath%3E %3C%2FclipPath%3E %3C%2Fdefs%3E %3Cg filter=%22url(%23grain)%22 clip-path=%22url(%23shape)%22%3E %3Cpath fill=%22%23f0f0f0%22 d=%22M777.5%2C609Q801%2C718%2C693%2C739.5Q585%2C761%2C476.5%2C833.5Q368%2C906%2C256.5%2C832Q145%2C758%2C150%2C629Q155%2C500%2C226%2C426Q297%2C352%2C325%2C199.5Q353%2C47%2C489%2C81Q625%2C115%2C763%2C162Q901%2C209%2C827.5%2C354.5Q754%2C500%2C777.5%2C609Z%22 %2F%3E %3C%2Fg%3E %3C%2Fsvg%3E"); */
+        background-image: url("data:image/svg+xml;utf8, %3Csvg width=%22100%25%22 height=%22100%25%22 viewBox=%220 0 1000 1000%22 xmlns=%22http:%2F%2Fwww.w3.org%2F2000%2Fsvg%22 %3E %3Cdefs%3E %3Cfilter id=%22grain%22 x=%22-50vw%22 y=%22-50vh%22 width=%22100vw%22 height=%22100vh%22%3E %3CfeFlood flood-color=%22%23ffffff%22 result=%22neutral-gray%22 %2F%3E %3CfeTurbulence in=%22neutral-gray%22 type=%22fractalNoise%22 baseFrequency=%222.5%22 numOctaves=%22100%22 stitchTiles=%22stitch%22 result=%22noise%22 %2F%3E %3CfeColorMatrix in=%22noise%22 type=%22saturate%22 values=%220%22 result=%22destaturatedNoise%22 %3E%3C%2FfeColorMatrix%3E %3CfeComponentTransfer in=%22desaturatedNoise%22 result=%22theNoise%22%3E %3CfeFuncA type=%22table%22 tableValues=%220 0 0.05 0%22%3E%3C%2FfeFuncA%3E %3C%2FfeComponentTransfer%3E %3CfeBlend in=%22SourceGraphic%22 in2=%22theNoise%22 mode=%22soft-light%22 result=%22noisy-image%22 %2F%3E %3C%2Ffilter%3E %3CclipPath id=%22shape%22%3E %3Cpath fill=%22currentColor%22 d=%22M854.5%2C644.5Q898%2C789%2C740%2C771Q582%2C753%2C475.5%2C828.5Q369%2C904%2C235.5%2C846.5Q102%2C789%2C168.5%2C644.5Q235%2C500%2C185.5%2C368Q136%2C236%2C277%2C241.5Q418%2C247%2C522%2C180Q626%2C113%2C728.5%2C186.5Q831%2C260%2C821%2C380Q811%2C500%2C854.5%2C644.5Z%22%3E%3C%2Fpath%3E %3C%2FclipPath%3E %3C%2Fdefs%3E %3Cg filter=%22url(%23grain)%22 clip-path=%22url(%23shape)%22%3E %3Cpath fill=%22%23f0f0f0%22 d=%22M854.5%2C644.5Q898%2C789%2C740%2C771Q582%2C753%2C475.5%2C828.5Q369%2C904%2C235.5%2C846.5Q102%2C789%2C168.5%2C644.5Q235%2C500%2C185.5%2C368Q136%2C236%2C277%2C241.5Q418%2C247%2C522%2C180Q626%2C113%2C728.5%2C186.5Q831%2C260%2C821%2C380Q811%2C500%2C854.5%2C644.5Z%22 %2F%3E %3C%2Fg%3E %3C%2Fsvg%3E");
+    }
     ::v-deep(.p-card-body) {
         padding: 0 !important;
     }

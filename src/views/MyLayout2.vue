@@ -2,15 +2,18 @@
     <div class="p-grid p-ai-stretch nested-grid p-nogutter" style="min-height: 100vh;">
         <Sidebar v-model:visible="visibleLeft" :class="myBgColorData+' '+myTextColorData" style="width: 260px;">
             <div class="animate__animated animate__slideInLeft animate__faster">
-                <div class="p-grid p-jc-center p-d-flex p-flex-column p-ac-center ">
-                    <img src="../assets/matcha.png" class="hvr-bob p-mt-4"
+                <div class="p-grid p-jc-center p-d-flex p-flex-column p-ac-center bg-svg-1">
+                    <img src="../assets/logosbr-crop.png" class="hvr-bob p-mt-4"
                         v-tooltip.right="{value: this.matchaMessage[Math.floor(Math.random()*this.matchaMessage.length)], class: 'custom-error'}"
-                        style="width: 20%; height: 18%;" alt="" srcset="">
+                        style="width: 30%; height: 18%;" alt="" srcset="">
 
                 </div>
-                <div class="p-grid p-jc-center  p-ac-center " style="margin-top: -7%;">
-                    <h2 class="" style="color: #78b34d; font-weight: 700;">MatchA</h2>
+                <div class="p-grid p-jc-center  p-ac-center " style="margin-top: -4%;">
+                    <h2 class="" style="color: rgb(149, 153, 162);font-weight: lighter;font-size: larger;">Matcha - SBR</h2>
                 </div>
+
+                
+
                 <NavigationMenu @showSideBar="sideBar" />
             </div>
         </Sidebar>
@@ -210,6 +213,13 @@
 </script>
 
 <style scoped>
+
+    .bg-svg-1{
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath fill='%23F2F4F8' d='M39.2 -39.3C46.5 -22.1 45.3 -6 41.9 9.9C38.5 25.7 33 41.4 22.2 46.9C11.4 52.4 -4.7 47.7 -24.1 41.6C-43.5 35.5 -66.3 27.9 -68.6 16.2C-70.8 4.5 -52.4 -11.3 -37.6 -30.3C-22.7 -49.3 -11.4 -71.4 2.3 -73.2C15.9 -75 31.9 -56.6 39.2 -39.3Z' transform='translate(100 100)' /%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: top;
+        background-size: 158px;
+    }
     .user-nav {
         display: inline-block;
         font-size: smaller;
